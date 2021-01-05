@@ -1,30 +1,28 @@
-# main.yml
-# 一个workflow，名字为CI
 name: CI
-
-# 触发 workflow 的事件，当有新push或者pr时执行
 on:
   push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
-# 一个workflow由执行的一项或多项job
-jobs:
-  # 一个job任务，任务名为build
-  build:
-	# runs-on 指定job任务运行所需要的虚拟机环境
-    runs-on: ubuntu-latest
-	# steps是每个Job的运行步骤，可以包含一个或多个步骤
-    steps:
-	# action命令，切换分支获取源码
-	# 来自官方脚本：https://github.com/marketplace/actions/checkout
-    - uses: actions/checkout@v2
-	# action命令，打印一行日志
-    - name: Run a one-line script
-      run: echo Hello, world!
-	# action命令，打印多行日志
-    - name: Run a multi-line script
-      run: |
-        echo Add other actions to build,
-        echo test, and deploy your project.
+    branches:
+      - master
 
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        persist-credentials: false
+        
+    # react项目为npm run-script build，vue项目改为npm run build
+    - name: Install and Build
+      run: |
+        npm install
+        npm run-script build
+     
+    # react项目的FOLDER为build，vue项目改为dist   
+    - name: Deploy
+      uses: JamesIves/github-pages-deploy-action@releases/v3
+      with:
+        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        BRANCH: gh-pages
+        FOLDER: build
