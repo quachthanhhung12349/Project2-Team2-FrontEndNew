@@ -1,39 +1,30 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
+# main.yml
+# 一个workflow，名字为CI
+name: CI
 
-# This workflow will install Deno and run tests across stable and nightly builds on Windows, Ubuntu and macOS.
-# For more information see: https://github.com/denolib/setup-deno
-
-name: Deno
-
+# 触发 workflow 的事件，当有新push或者pr时执行
 on:
   push:
-    branches: [main]
+    branches: [ master ]
   pull_request:
-    branches: [main]
-
+    branches: [ master ]
+# 一个workflow由执行的一项或多项job
 jobs:
-  test:
-    runs-on: ${{ matrix.os }} # runs a test on Ubuntu, Windows and macOS
-
-    strategy:
-      matrix:
-        deno: ["v1.x", "nightly"]
-        os: [macOS-latest, windows-latest, ubuntu-latest]
-
+  # 一个job任务，任务名为build
+  build:
+	# runs-on 指定job任务运行所需要的虚拟机环境
+    runs-on: ubuntu-latest
+	# steps是每个Job的运行步骤，可以包含一个或多个步骤
     steps:
-      - name: Setup repo
-        uses: actions/checkout@v2
+	# action命令，切换分支获取源码
+	# 来自官方脚本：https://github.com/marketplace/actions/checkout
+    - uses: actions/checkout@v2
+	# action命令，打印一行日志
+    - name: Run a one-line script
+      run: echo Hello, world!
+	# action命令，打印多行日志
+    - name: Run a multi-line script
+      run: |
+        echo Add other actions to build,
+        echo test, and deploy your project.
 
-      - name: Setup Deno
-        uses: denolib/setup-deno@c7d7968ad4a59c159a777f79adddad6872ee8d96
-        with:
-          deno-version: ${{ matrix.deno }} # tests across multiple Deno versions
-
-      - name: Cache Dependencies
-        run: deno cache deps.ts
-
-      - name: Run Tests
-        run: deno test -A --unstable
