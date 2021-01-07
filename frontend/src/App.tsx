@@ -1,0 +1,28 @@
+import React from 'react';
+import './App.css';
+import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom'
+import { Register } from './components/Register';
+import { Login } from './components/Login';
+import { Admin } from './components/Admin';
+import { Doctor } from './components/Doctor';
+import { Patient } from './components/Patient';
+
+function App() {
+  return (
+    <div className="App">
+      <Router>
+        <Switch>
+          <Route exact path="/" render={() => <h1>Default Path</h1>} />
+          <Route path="/register" component={Register} />
+          <Route path="/login" component={Login} />
+          <Route path="/admin" component={Admin} />
+          <Route path="/doctor" component={Doctor} />
+          <Route path="/patient" component={Patient} />
+        </Switch>
+        {/* <Link to="/login"> login</Link> */}
+      </Router>
+    </div>
+  );
+}
+
+export default App;
