@@ -1,5 +1,6 @@
 import React from 'react';
-import './App.css';
+// import './App.css';
+import './assets/primary.scss';
 import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom'
 import { Register } from './components/Register';
 import { Login } from './components/Login';
@@ -9,7 +10,11 @@ import { Patient } from './components/Patient';
 
 function App() {
   return (
+<<<<<<< HEAD
     <div className="App">
+=======
+    <div className="App" id="container">
+>>>>>>> ffdb2e5dd7234edb26f6723c444da63e3d69e506
       <Router>
         <Switch>
           <Route exact path="/" render={() => <h1>Default Path</h1>} />
@@ -19,7 +24,11 @@ function App() {
           <Route path="/doctor" component={Doctor} />
           <Route path="/patient" component={Patient} />
         </Switch>
+<<<<<<< HEAD
         { <Link to="/login"> login</Link> }
+=======
+        <Link to="/login"> login</Link>
+>>>>>>> ffdb2e5dd7234edb26f6723c444da63e3d69e506
       </Router>
     </div>
   );
