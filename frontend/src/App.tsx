@@ -19,7 +19,7 @@ function App() {
           <Route path="/doctor" component={Doctor} />
           <Route path="/patient" component={Patient} />
         </Switch>
-        {/* <Link to="/login"> login</Link> */}
+        { <Link to="/login"> login</Link> }
       </Router>
     </div>
   );
