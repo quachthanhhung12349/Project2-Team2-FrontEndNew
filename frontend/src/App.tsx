@@ -10,7 +10,6 @@ import { Patient } from './components/Patient';
 function App() {
   return (
     <div className="App">
-<<<<<<< HEAD
       <Router>
         <Switch>
           <Route exact path="/" render={() => <h1>Default Path</h1>} />
@@ -22,22 +21,6 @@ function App() {
         </Switch>
         {/* <Link to="/login"> login</Link> */}
       </Router>
-=======
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p> 
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
->>>>>>> 7440d9c98f62fd9cd71beb39720c1c89326af5a9
     </div>
   );
 }
