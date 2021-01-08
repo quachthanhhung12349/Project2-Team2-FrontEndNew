@@ -7,6 +7,7 @@ import { Login } from './components/Login';
 import { Admin } from './components/Admin';
 import { Doctor } from './components/Doctor';
 import { Patient } from './components/Patient';
+import {Forum} from "./components"
 
 function App() {
   return (
@@ -19,9 +20,12 @@ function App() {
           <Route path="/admin" component={Admin} />
           <Route path="/doctor" component={Doctor} />
           <Route path="/patient" component={Patient} />
+          
         </Switch>
         <Link to="/login"> login</Link>
+        
       </Router>
+      <Forum/>
     </div>
   );
 }
