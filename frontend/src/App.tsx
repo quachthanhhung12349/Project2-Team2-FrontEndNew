@@ -23,9 +23,8 @@ function App() {
           
         </Switch>
         <Link to="/login"> login</Link>
-        
-      </Router>
-      <Forum/>
+        <Link to="/patient">Patient</Link>
+      </Router> 
     </div>
   );
 }
