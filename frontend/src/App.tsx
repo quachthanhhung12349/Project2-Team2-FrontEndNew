@@ -20,10 +20,12 @@ function App() {
           <Route path="/admin" component={Admin} />
           <Route path="/doctor" component={Doctor} />
           <Route path="/patient" component={Patient} />
-          
+          <Route path="/forum" component={Forum}/>
         </Switch>
         <Link to="/login"> login</Link>
         <Link to="/patient">Patient</Link>
+        <br></br>
+        <Link to="/forum">forum</Link>
       </Router> 
     </div>
   );
