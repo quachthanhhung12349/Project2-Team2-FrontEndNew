@@ -21,7 +21,8 @@ function App() {
           <Route path="/patient" component={Patient} />
         </Switch>
         <Link to="/login"> login</Link>
-      </Router>
+        <Link to="/patient">Patient</Link>
+      </Router> 
     </div>
   );
 }
