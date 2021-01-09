@@ -17,6 +17,10 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
+import { RequestList } from './RequestList';
+import { Router } from '@material-ui/icons';
+import { Route, Switch } from 'react-router';
+import { Link } from 'react-router-dom';
 
 const drawerWidth = 240;
 
@@ -82,6 +86,27 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
+const navbarData = [
+  {
+    name: 'Home',
+    path: '/patient'
+  },
+  {
+    name: 'View requests',
+    path: '/requestList'
+  },
+  {
+    name: 'Create request',
+    path: '/'
+  },
+  {
+    name: 'Forum',
+    path: '/'
+  }
+  
+]
+
+
 export const PersistentDrawerLeft:React.FunctionComponent = (props) => {
   const classes = useStyles();
   const theme = useTheme();
@@ -134,14 +159,17 @@ export const PersistentDrawerLeft:React.FunctionComponent = (props) => {
           </IconButton>
         </div>
         <Divider />
-        <List>
-          {['Home', 'Past requests', 'Create request', 'Forums'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
+
+          <List>
+            {navbarData.map((text, index) => (
+              <ListItem component={Link} to={text.path} button key={text.name}>
+                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+                <ListItemText primary={text.name} />
+                
+              </ListItem>
+            ))}
+          </List>
+        
         <Divider />
       </Drawer>
       <main
