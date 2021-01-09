@@ -1,11 +1,11 @@
 import React from 'react'
-import PersistentDrawerLeft from './PersistentDrawerLeft'
+import PatientNavBar from './PatientNavBar'
 
 
 export const RequestList:React.FunctionComponent = () => {
     return(
-        <PersistentDrawerLeft>
+        <PatientNavBar>
             <div>Get Request list</div>
-        </PersistentDrawerLeft> 
+        </PatientNavBar> 
     )
 }

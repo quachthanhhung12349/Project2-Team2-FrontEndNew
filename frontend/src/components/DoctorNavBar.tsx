@@ -89,14 +89,14 @@ const useStyles = makeStyles((theme: Theme) =>
 const navbarData = [
   {
     name: 'Home',
-    path: '/patient'
+    path: '/doctor'
   },
   {
-    name: 'View requests',
-    path: '/requestList'
+    name: 'View pending requests',
+    path: '/'
   },
   {
-    name: 'Create request',
+    name: 'View past requests',
     path: '/'
   },
   {
@@ -107,7 +107,7 @@ const navbarData = [
 ]
 
 
-export const PersistentDrawerLeft:React.FunctionComponent = (props) => {
+export const DoctorNavBar:React.FunctionComponent = (props) => {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = useState(false);
@@ -186,4 +186,4 @@ export const PersistentDrawerLeft:React.FunctionComponent = (props) => {
   );
 }
 
-export default PersistentDrawerLeft
+export default DoctorNavBar

@@ -4,7 +4,7 @@ import React from 'react';
 import { Route, Switch } from 'react-router';
 import { Link } from 'react-router-dom';
 import '../assets/patient.scss'
-import PersistentDrawerLeft from './PersistentDrawerLeft';
+import { PatientNavBar } from './PatientNavBar';
 import { RequestList } from './RequestList';
 
 
@@ -12,9 +12,9 @@ import { RequestList } from './RequestList';
 export const PatientHome: React.FunctionComponent = () => {
     return(
         <>
-                <PersistentDrawerLeft>
+                <PatientNavBar>
                     <div>hiiiii</div>
-                </PersistentDrawerLeft>
+                </PatientNavBar>
 
           </>  
         
