@@ -8,6 +8,7 @@ import { Admin } from './components/Admin';
 import { Doctor } from './components/Doctor';
 import { PatientHome } from './components/PatientHome';
 import { RequestList } from './components/RequestList';
+import { DoctorHome } from './components/DoctorHome';
 
 function App() {
   return (
@@ -18,13 +19,15 @@ function App() {
           <Route path="/register" component={Register} />
           <Route path="/login" component={Login} />
           <Route path="/admin" component={Admin} />
-          <Route path="/doctor" component={Doctor} />
+          
           <Route path="/patient" component={PatientHome} />
           <Route path="/requestList" component={RequestList} />
+          <Route path="/doctor" component={DoctorHome} />
           
         </Switch>
-        <Link to="/login"> login</Link>
-        <Link to="/patient">Patient</Link>
+        <Link to="/login"> login</Link>&nbsp;|&nbsp;
+        <Link to="/patient">Patient</Link>&nbsp;|&nbsp;
+        <Link to="/doctor">Doctor</Link>&nbsp;
       </Router> 
     </div>
   );
