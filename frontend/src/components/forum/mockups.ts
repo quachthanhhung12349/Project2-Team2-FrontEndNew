@@ -9,3 +9,19 @@ export const forumList = [
     },
     
   ];
+
+  export const messageList = [
+    {
+      message: "message1",
+      timestamp: "2012",
+      doctor: "",
+      patient:"p"
+    },
+    {
+      message: "message2",
+      timestamp: "2013",
+      doctor: "d",
+      patient: ""
+    },
+    
+  ];
