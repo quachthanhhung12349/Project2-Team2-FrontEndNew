@@ -8,6 +8,7 @@ import { Admin } from './components/Admin';
 import { Doctor } from './components/Doctor';
 import { PatientHome } from './components/PatientHome';
 import { RequestList } from './components/RequestList';
+import {ForumList} from './components/ForumList'
 
 function App() {
   return (
@@ -21,12 +22,11 @@ function App() {
           <Route path="/doctor" component={Doctor} />
           <Route path="/patient" component={PatientHome} />
           <Route path="/requestList" component={RequestList} />
+          <Route path="/forumList" component={ForumList} />
           
         </Switch>
         <Link to="/login"> login</Link>
         <Link to="/patient">Patient</Link>
-        <br></br>
-        <Link to="/forum">forum</Link>
       </Router> 
     </div>
   );

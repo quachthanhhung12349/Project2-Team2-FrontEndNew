@@ -10,6 +10,7 @@ import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
 
+
 interface MessageIdProps {
   message: string;
   timestamp: string;
@@ -36,7 +37,7 @@ export const Message: React.FC<MessageIdProps> = ({
   doctor,
   patient,
 }) => {
-    const classes = useStyles();
+  const classes = useStyles();
   return (
     <>
       <ListItemText
@@ -49,15 +50,14 @@ export const Message: React.FC<MessageIdProps> = ({
               className={classes.inline}
               color="textPrimary"
             >
-              by:{doctor?doctor:patient}
+              by:{patient ? patient : doctor}
               <br />
             </Typography>
             Submitted:{timestamp}
           </React.Fragment>
         }
       />
-
-      <Divider variant="inset" component="li" />
+      
     </>
   );
 };
