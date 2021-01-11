@@ -13,6 +13,7 @@ import { Message } from "./Message";
 import { Button, Container } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
+import { postTopic,postMessage } from '../../remote/remote-functions';
 
 
 
@@ -44,12 +45,17 @@ export const Forum: React.FC = (props) => {
 
   const [inputTopic,setInputTopic] = useState<string>();
 
+  const [inputMessage, setInputMessage] = useState<string>();
+
+  const [currentTopic,setCurrentTopic]=useState<number>();
+
   async function getMessagesByForumId(forumId: number, topic: string) {
     setIsShow(true);
 
     setTopic(topic);
     setLoading(true);
-    setInputShow(false)
+    setInputShow(false);
+    setCurrentTopic(forumId);
     let url = `http://localhost:8080/message/${forumId}`;
     try {
       let response = await fetch(url);
@@ -63,24 +69,39 @@ export const Forum: React.FC = (props) => {
     }
   }
 
-  const submitTopic=()=> {
-    const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ topic: inputTopic })
-  };
-      fetch('http://localhost:8080/forum', requestOptions)
-      .then(response => response.json());
-      setInputShow(false);
-      
-      window.location.reload();
 
+
+  const onPostTopic=async()=>{
+    const topicstring={
+      topic:inputTopic
+    }
+    const data=await postTopic(topicstring);
+    setForums([...forums,data])
+    setInputTopic('');
+    setInputShow(false)
+
+  }
+
+  const handleTopicChange=e=>{
+    
+    setInputTopic(e.target.value);
+  }
+  const handleMessageChange=e=>{
+    setInputMessage(e.target.value);
     
   }
 
-  const handleChange=e=>{
-    console.log(`typed=>${e.target.value}`);
-    setInputTopic(e.target.value);
+  const onPostMessage=async()=>{
+    const currentInputMessage={
+      message:inputMessage,
+      forumId:{
+        forumId:currentTopic
+      }
+    }
+    const data=await postMessage(currentInputMessage);
+    setInputMessage('')
+    setMessage([...message,data])
+    
   }
 
 
@@ -156,8 +177,8 @@ export const Forum: React.FC = (props) => {
         ) : null}
         {inputShow ? (
           <div>
-            <TextField id="standard-basic" label="Input your topic" name="topic" value={inputTopic} onChange={handleChange}/><br/>
-            <Button variant="contained" color="primary" type="submit" onSubmit={()=>submitTopic()}>
+            <TextField id="standard-basic" label="Input your topic" name="topic" value={inputTopic} onChange={handleTopicChange}/><br/>
+            <Button variant="contained" color="primary" type="submit"  onClick={() => onPostTopic()}>
               Submit
             </Button>
             <Button variant="contained" color="primary" onClick={()=>setInputShow(false)}>
@@ -180,12 +201,12 @@ export const Forum: React.FC = (props) => {
                 ))
               : null}
             {!loading ? (
-              <form className={classes.root} noValidate autoComplete="off" >
-                <TextField id="standard-basic" label="Write your post" name="message" />
-                <Button variant="contained" color="primary">
+              <div >
+                <TextField id="standard-basic" label="Write your post" name="message" value={inputMessage} onChange={handleMessageChange}/>
+                <Button variant="contained" color="primary" onClick={onPostMessage}>
                   Submit
                 </Button>
-              </form>
+              </div>
             ) : null}
           </Grid>
         ) : null}
