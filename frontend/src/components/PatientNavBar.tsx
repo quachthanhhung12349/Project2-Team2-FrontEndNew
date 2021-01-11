@@ -89,7 +89,7 @@ const navbarData = [
     path: '/patient'
   },
   {
-    name: 'View requests',
+    name: 'Past requests',
     path: '/requestList'
   },
   {
