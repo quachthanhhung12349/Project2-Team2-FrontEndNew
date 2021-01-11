@@ -17,7 +17,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
-import { RequestList } from './RequestList';
+
 import { Router } from '@material-ui/icons';
 import { Route, Switch } from 'react-router';
 import { Link } from 'react-router-dom';
