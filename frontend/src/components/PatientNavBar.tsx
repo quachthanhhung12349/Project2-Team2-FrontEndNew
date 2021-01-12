@@ -15,9 +15,13 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
-import { Link, useHistory } from 'react-router-dom';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import HomeIcon from '@material-ui/icons/Home';
+import SpeakerNotesIcon from '@material-ui/icons/SpeakerNotes';
+import DescriptionIcon from '@material-ui/icons/Description';
+import NoteAddIcon from '@material-ui/icons/NoteAdd';
+import { Link, useHistory, useLocation } from 'react-router-dom';
+
 
 const drawerWidth = 240;
 
@@ -83,38 +87,38 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const navbarData = [
-  {
-    name: 'Home',
-    path: '/patient'
-  },
-  {
-    name: 'Past requests',
-    path: '/requestList'
-  },
-  {
-    name: 'Create request',
-    path: '/'
-  },
-  {
-    name: 'Forum',
-    path: '/forumList'
-  },
-  {
-    name: 'Logout',
-    path: '',
-    click: ''
-  }
-  
-]
 
 
-export const PatientNavBar:React.FunctionComponent = (props) => {
+
+export const PatientNavBar:React.FunctionComponent<any> = (props) => {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = useState(false);
   const history = useHistory();
+  const location: any = useLocation();
 
+  const navbarData = [
+    {
+      name: 'Home',
+      path: '/patient',
+    },
+    {
+      name: 'Past requests',
+      path: '/requestList',
+    },
+    {
+      name: 'Create request',
+      path: '/',
+    },
+    {
+      name: 'Forum',
+      path: '/forumList',
+    },
+    {
+      name: 'Logout',
+      path: '/',
+    }
+  ]
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -124,8 +128,45 @@ export const PatientNavBar:React.FunctionComponent = (props) => {
     setOpen(false);
   };
 
+ 
+  const homeClicked = () => {
+    history.push({
+      pathname: navbarData[0].path,
+      state: {  //to access state use useLocation hook in function component
+        patientInfo: props.patientInfo ? props.patientInfo : location.state.patientInfo 
+    }
+  })
+  }
+
+  const requestListClicked = () => {
+      history.push({
+        pathname: navbarData[1].path,
+        state: {  //to access state use useLocation hook in function component
+            patientInfo: props.patientInfo ? props.patientInfo : location.state.patientInfo 
+        }
+    })
+  }
+
+  const createRequestClicked = () => {
+    history.push({
+      pathname: navbarData[2].path,
+      state: {  //to access state use useLocation hook in function component
+          patientInfo: props.patientInfo ? props.patientInfo : location.state.patientInfo 
+      }
+  })
+  }
+
+  const forumClicked = () => {
+    history.push({
+      pathname: navbarData[3].path,
+      state: {  //to access state use useLocation hook in function component
+          patientInfo: props.patientInfo ? props.patientInfo : location.state.patientInfo 
+      }
+  })
+  }
+
   const logoutClicked = () => {
-    history.push("/")
+    history.push(navbarData[4].path)
   }
 
   return (
@@ -169,18 +210,32 @@ export const PatientNavBar:React.FunctionComponent = (props) => {
         <Divider />
 
           <List>
-            {navbarData.map((text, index) => (
-              !text.click ? 
-              <ListItem component={Link} to={text.path} button key={text.name}>
-                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                <ListItemText primary={text.name} />
-              </ListItem>
-              :
-              <ListItem onClick={() => logoutClicked()} button key={text.name}>
-                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                <ListItemText primary={text.name} />
-              </ListItem>
-            ))}
+
+                <ListItem onClick={homeClicked}  button key={navbarData[0].name}>
+                <ListItemIcon><HomeIcon/></ListItemIcon>
+                <ListItemText primary={navbarData[0].name} />
+                </ListItem>
+          
+                <ListItem onClick={requestListClicked}  button key={navbarData[1].name}>
+                <ListItemIcon><DescriptionIcon/></ListItemIcon>
+                <ListItemText primary={navbarData[1].name} />
+                </ListItem>
+           
+                <ListItem onClick={createRequestClicked}  button key={navbarData[2].name}>
+                <ListItemIcon><NoteAddIcon/></ListItemIcon>
+                <ListItemText primary={navbarData[2].name} />
+                </ListItem>
+              
+                <ListItem onClick={forumClicked}  button key={navbarData[3].name}>
+                <ListItemIcon><SpeakerNotesIcon/></ListItemIcon>
+                <ListItemText primary={navbarData[3].name} />
+                </ListItem>
+
+                <ListItem onClick={logoutClicked} button key={navbarData[4].name}>
+                <ListItemIcon><ExitToAppIcon/></ListItemIcon>
+                <ListItemText primary={navbarData[4].name} />
+                </ListItem>
+              
           </List>
         
         <Divider />

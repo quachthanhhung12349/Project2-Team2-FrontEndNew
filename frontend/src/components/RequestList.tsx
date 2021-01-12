@@ -8,6 +8,8 @@ import AccordionSummary from '@material-ui/core/AccordionSummary';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { Grid } from '@material-ui/core';
+import { getRequestList } from '../remote/remote-functions';
+import { useLocation } from 'react-router-dom';
 
 interface IPatient{
     healthCardNumber:number,
@@ -33,9 +35,11 @@ interface IReqList{
 
 
 
-export const RequestList:React.FunctionComponent<any> = (props) => {
+export const RequestList:React.FunctionComponent<any> = () => {
 
     const [data, setRequestList] = useState<IReqList[]>([])
+    const location: any = useLocation()
+
     const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
@@ -72,15 +76,14 @@ export const RequestList:React.FunctionComponent<any> = (props) => {
         )
     }
 
+    async function getContent(){
+        console.log(location.state.patientInfo.patientId)
+        let getReqList = await getRequestList(location.state.patientInfo.patientId)
+        setRequestList(getReqList)
+    } 
+
     useEffect(() => {
-        axios.get("http://localhost:8080/patient/1").then(
-            res =>{
-                setRequestList(res.data)
-                console.log(res.data);
-        
-            }
-        )
-        
+        getContent()
     }, [])
 
     
@@ -91,7 +94,6 @@ export const RequestList:React.FunctionComponent<any> = (props) => {
           setExpanded(isExpanded ? panel : false);
         }
       
-        
 
         return(
             
@@ -114,7 +116,7 @@ export const RequestList:React.FunctionComponent<any> = (props) => {
                                     aria-controls="panel1bh-content"
                                     id="panel1bh-header"
                                     >
-                                    <Typography className={classes.heading}>Reference numner: {text.requestId}</Typography>
+                                    <Typography className={classes.heading}>Reference number: {text.requestId}</Typography>
                                     <Typography className={classes.secondaryHeading}>Status: {text.responsed ? "Resolved" : "Pending"}</Typography>
                                 </AccordionSummary>
                             <AccordionDetails>
