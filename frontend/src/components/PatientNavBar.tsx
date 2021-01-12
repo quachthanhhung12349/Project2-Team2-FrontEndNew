@@ -17,7 +17,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 const drawerWidth = 240;
 
@@ -99,6 +99,11 @@ const navbarData = [
   {
     name: 'Forum',
     path: '/'
+  },
+  {
+    name: 'Logout',
+    path: '',
+    click: ''
   }
   
 ]
@@ -108,6 +113,8 @@ export const PatientNavBar:React.FunctionComponent = (props) => {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = useState(false);
+  const history = useHistory();
+
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -116,6 +123,10 @@ export const PatientNavBar:React.FunctionComponent = (props) => {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+  const logoutClicked = () => {
+    history.push("/")
+  }
 
   return (
     <div className={classes.root}>
@@ -159,10 +170,15 @@ export const PatientNavBar:React.FunctionComponent = (props) => {
 
           <List>
             {navbarData.map((text, index) => (
+              !text.click ? 
               <ListItem component={Link} to={text.path} button key={text.name}>
                 <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
                 <ListItemText primary={text.name} />
-                
+              </ListItem>
+              :
+              <ListItem onClick={() => logoutClicked()} button key={text.name}>
+                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+                <ListItemText primary={text.name} />
               </ListItem>
             ))}
           </List>
