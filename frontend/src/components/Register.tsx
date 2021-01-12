@@ -87,6 +87,7 @@ export const Register: React.FunctionComponent = (props) => {
             address: address,
             language: language,
             healthcardnumber: healthcardnumber,
+            role: 'Patient'
         }
 
         const doctorCredentials = {
@@ -103,18 +104,28 @@ export const Register: React.FunctionComponent = (props) => {
             education: education,
             certification: certification,
             speciality: speciality,
-            awards: awards
+            awards: awards,
+            status: 'Pending',
+            role: 'Doctor'
         }
 
         if (location.state.role === 'Doctor') {
             try {
                 let user = await doctorRegister(doctorCredentials)
+                history.push('/');
             } catch (e) {
                 console.log(e);
             }
         }else if (location.state.role === 'Patient') {
             try {
                 let user = await patientRegister(patientCredentials)
+                console.log("Doctor registered -> " + JSON.stringify(user));
+                history.push({
+                    pathname: '/patient',
+                    state: {  
+                        patientInfo: user
+                    },
+                });
             } catch (e) {
                 console.log(e);
             }

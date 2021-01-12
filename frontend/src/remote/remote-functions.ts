@@ -1,11 +1,20 @@
 import { MedicalSystemBaseClient } from "."
 
-export const userLogin = async (credentials:any) => {
+export const userLogin = async (role:String, username:String , password:String ) => {
+    const loginCredentials = {
+        username: username,
+        password: password
+    }
 
     try{
-        let res = await MedicalSystemBaseClient.post('/login', credentials)
-
-        return res.data;
+        if(role === 'Doctor'){
+            let res = await MedicalSystemBaseClient.post('/loginDoctor', loginCredentials);
+            return res.data;
+        }else if(role === 'Patient'){
+            let res = await MedicalSystemBaseClient.post('/loginPatient', loginCredentials);
+            return res.data;
+        }
+          
     }catch(e){
         console.log(e);
         if(e.response){
@@ -20,7 +29,7 @@ export const userLogin = async (credentials:any) => {
 
 export const doctorRegister = async (doctorCredentials:any) => {
     try{
-        let res = await MedicalSystemBaseClient.post('/doctorRegister', doctorCredentials)
+        let res = await MedicalSystemBaseClient.post('/registerDoctor', doctorCredentials)
 
         return res.data;
     }catch(e){
@@ -36,7 +45,7 @@ export const doctorRegister = async (doctorCredentials:any) => {
 
 export const patientRegister = async (patientCredentials:any) => {
     try{
-        let res = await MedicalSystemBaseClient.post('/patientRegister', patientCredentials)
+        let res = await MedicalSystemBaseClient.post('/registerPatient', patientCredentials)
 
         return res.data;
     }catch(e){

@@ -8,9 +8,9 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import Background from '../assets/img/medicalBackground.jpg';
 import { userLogin } from '../remote/remote-functions';
-import { User } from '../models/User';
 
 import { useHistory } from "react-router-dom";
+import { exception } from "console";
 
 
 
@@ -85,12 +85,8 @@ TabPanel.propTypes = {
     value: PropTypes.any.isRequired,
 };
 
-interface ILoginProps {
-    updateCurrentUser: (u: User) => void
-    currentUser: User
-}
 
-export const Login: React.FunctionComponent<ILoginProps> = (props) => {
+export const Login: React.FunctionComponent = (props) => {
 
     const history = useHistory();
 
@@ -104,6 +100,7 @@ export const Login: React.FunctionComponent<ILoginProps> = (props) => {
     const [errorPassword, setErrorPassword] = useState(false);
     const [errorTextPassword, setErrorTextPassword] = useState("");
     const [errorAuth, setErrorAuth] = useState(false);
+    const [error, setError] = useState('');
     const [role, setRole] = useState('');
     const [tabValue, setTabValue] = useState(0);
     const [match, setMatch] = useState(false);
@@ -138,19 +135,20 @@ export const Login: React.FunctionComponent<ILoginProps> = (props) => {
     }
 
     const onLogin = async () => {
-        const loginCredentials = {
-            role: role,
-            username: username,
-            password: password
-        }
 
         if (username && password) {
             try {
-                let user = await userLogin(loginCredentials)
-                props.updateCurrentUser(user)
+                let user = await userLogin(role, username, password);
+                console.log(JSON.stringify(user))
+                if(user){
                 authentication(user);
+                }else{
+                    setErrorAuth(true)
+                    setError('User Not Found');
+                }
             } catch (e) {
                 setErrorAuth(true)
+                setError('User Not Found');
                 console.log(e);
             }
         } else {
@@ -166,21 +164,29 @@ export const Login: React.FunctionComponent<ILoginProps> = (props) => {
     }
 
     const authentication = (user: any) => {
-        if(user.userRole === "Admin"){
+        if(user.role === "Admin"){
             history.push({
                 pathname: '/admin',
                 state: {  //to access state use useLocation hook in function component
                     adminInfo: user
                 },
             });
-        }else if(user.userRole === "Doctor"){
-            history.push({
-                pathname: '/doctor',
-                state: {  //to access state use useLocation hook in function component
-                    doctorInfo: user
-                },
-            });
-        }else if(user.userRole === "Patient"){
+        }else if(user.role === "Doctor"){
+            if(user.status === 'Approved'){
+                history.push({
+                    pathname: '/doctor',
+                    state: {  //to access state use useLocation hook in function component
+                        doctorInfo: user
+                    },
+                });
+            }else if(user.status === 'Pending'){
+                setErrorAuth(true)
+                setError('Account is in Pending Status')
+            }else if(user.status === 'Rejected'){
+                setErrorAuth(true)
+                setError('Account is Rejected')
+            }  
+        }else if(user.role === "Patient"){
             history.push({
                 pathname: '/patient',
                 state: {  //to access state use useLocation hook in function component
@@ -191,7 +197,7 @@ export const Login: React.FunctionComponent<ILoginProps> = (props) => {
     }
 
     const onRegister = () => {
-        if (username && password) {
+        if (username && password && role) {
             if (password !== confirmPassword) {
                 setMatch(true)
             } else {
@@ -342,7 +348,7 @@ export const Login: React.FunctionComponent<ILoginProps> = (props) => {
                             }}
                         > LOG IN </Button>
 
-                        {(errorAuth) ? <p style={styles.errorTextStyle}>User not Found</p> : null}
+                        {(errorAuth) ? <p style={styles.errorTextStyle}>{error}</p> : null}
 
                     </form>
                 </TabPanel>
