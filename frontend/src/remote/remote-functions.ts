@@ -58,3 +58,33 @@ export const patientRegister = async (patientCredentials:any) => {
         
     }
 }
+
+export const postTopic = async(topic:any)=>{
+    try{
+        let res = await MedicalSystemBaseClient.post('/forum',topic)
+        return res.data;
+    }catch(e){
+        console.log(e);
+        if(e.response){
+            throw new Error(e.response.data)
+        } else {
+            throw new Error("OOps Something went wrong?")
+        }
+        
+    }
+}
+
+export const postMessage = async(message:any)=>{
+    try{
+        let res = await MedicalSystemBaseClient.post('/message',message)
+        return res.data;
+    }catch(e){
+        console.log(e);
+        if(e.response){
+            throw new Error(e.response.data)
+        } else {
+            throw new Error("OOps Something went wrong?")
+        }
+        
+    }
+}
