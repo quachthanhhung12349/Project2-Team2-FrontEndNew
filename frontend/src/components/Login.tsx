@@ -10,7 +10,6 @@ import Background from '../assets/img/medicalBackground.jpg';
 import { userLogin } from '../remote/remote-functions';
 
 import { useHistory } from "react-router-dom";
-import { exception } from "console";
 
 
 

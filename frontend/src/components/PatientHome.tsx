@@ -12,10 +12,11 @@ import { useLocation } from 'react-router-dom';
 
 export const PatientHome: React.FunctionComponent = () => {
     const location: any = useLocation();
+    const {patientInfo} = location.state;
     return(
         <>
                 <PatientNavBar>
-                    <div>{location.state.patientInfo.username}</div>
+                    <div>{patientInfo.username}</div>
                 </PatientNavBar>
 
           </>  
