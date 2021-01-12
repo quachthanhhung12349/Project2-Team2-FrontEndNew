@@ -88,3 +88,18 @@ export const postMessage = async(message:any)=>{
         
     }
 }
+
+export const getRequestList = async(patientId:any)=>{
+    try{
+        let res = await MedicalSystemBaseClient.get(`/patient/${patientId}`)
+        return res.data;
+    }catch(e){
+        console.log(e);
+        if(e.response){
+            throw new Error(e.response.data)
+        } else {
+            throw new Error("OOps Something went wrong?")
+        }
+        
+    }
+}

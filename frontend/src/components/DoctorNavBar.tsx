@@ -15,12 +15,12 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
-import { RequestList } from './RequestList';
-import { Router } from '@material-ui/icons';
-import { Route, Switch } from 'react-router';
-import { Link } from 'react-router-dom';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import HomeIcon from '@material-ui/icons/Home';
+import SpeakerNotesIcon from '@material-ui/icons/SpeakerNotes';
+import DescriptionIcon from '@material-ui/icons/Description';
+import NoteAddIcon from '@material-ui/icons/NoteAdd';
+import { useHistory, useLocation } from 'react-router';
 
 const drawerWidth = 240;
 
@@ -89,28 +89,33 @@ const useStyles = makeStyles((theme: Theme) =>
 const navbarData = [
   {
     name: 'Home',
-    path: '/doctor'
+    path: '/doctor',
   },
   {
-    name: 'View pending requests',
-    path: '/'
+    name: 'Pending requests',
+    path: '/',
   },
   {
-    name: 'View past requests',
-    path: '/'
+    name: 'Request history',
+    path: '/',
   },
   {
     name: 'Forum',
-    path: '/'
+    path: '/',
+  },
+  {
+    name: 'Logout',
+    path: '/',
   }
-  
 ]
 
 
-export const DoctorNavBar:React.FunctionComponent = (props) => {
+export const DoctorNavBar:React.FunctionComponent<any> = (props) => {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = useState(false);
+  const history = useHistory();
+  const location: any = useLocation();
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -119,6 +124,46 @@ export const DoctorNavBar:React.FunctionComponent = (props) => {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+  const homeClicked = () => {
+    history.push({
+      pathname: navbarData[0].path,
+      state: {  //to access state use useLocation hook in function component
+        doctorInfo: props.doctorInfo ? props.doctorInfo : location.state.doctorInfo
+      }
+  })
+  }
+
+  const pendingRequestListClicked = () => {
+      history.push({
+        pathname: navbarData[1].path,
+        state: {  //to access state use useLocation hook in function component
+            doctorInfo: props.doctorInfo ? props.doctorInfo : location.state.doctorInfo
+        }
+    })
+  }
+
+  const requestHistoryClicked = () => {
+    history.push({
+      pathname: navbarData[2].path,
+      state: {  //to access state use useLocation hook in function component
+        doctorInfo: props.doctorInfo ? props.doctorInfo : location.state.doctorInfo
+      }
+  })
+  }
+
+  const forumClicked = () => {
+    history.push({
+      pathname: navbarData[3].path,
+      state: {  //to access state use useLocation hook in function component
+        doctorInfo: props.doctorInfo ? props.doctorInfo : location.state.doctorInfo
+      }
+  })
+  }
+
+  const logoutClicked = () => {
+    history.push(navbarData[4].path)
+  }
 
   return (
     <div className={classes.root}>
@@ -160,15 +205,34 @@ export const DoctorNavBar:React.FunctionComponent = (props) => {
         </div>
         <Divider />
 
-          <List>
-            {navbarData.map((text, index) => (
-              <ListItem component={Link} to={text.path} button key={text.name}>
-                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                <ListItemText primary={text.name} />
-                
-              </ListItem>
-            ))}
-          </List>
+        <List>
+
+          <ListItem onClick={homeClicked}  button key={navbarData[0].name}>
+          <ListItemIcon><HomeIcon/></ListItemIcon>
+          <ListItemText primary={navbarData[0].name} />
+          </ListItem>
+
+          <ListItem onClick={pendingRequestListClicked}  button key={navbarData[1].name}>
+          <ListItemIcon><DescriptionIcon/></ListItemIcon>
+          <ListItemText primary={navbarData[1].name} />
+          </ListItem>
+
+          <ListItem onClick={requestHistoryClicked}  button key={navbarData[2].name}>
+          <ListItemIcon><NoteAddIcon/></ListItemIcon>
+          <ListItemText primary={navbarData[2].name} />
+          </ListItem>
+
+          <ListItem onClick={forumClicked}  button key={navbarData[3].name}>
+          <ListItemIcon><SpeakerNotesIcon/></ListItemIcon>
+          <ListItemText primary={navbarData[3].name} />
+          </ListItem>
+
+          <ListItem onClick={logoutClicked} button key={navbarData[4].name}>
+          <ListItemIcon><ExitToAppIcon/></ListItemIcon>
+          <ListItemText primary={navbarData[4].name} />
+          </ListItem>
+
+        </List>
         
         <Divider />
       </Drawer>
