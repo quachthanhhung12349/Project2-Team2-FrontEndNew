@@ -98,7 +98,7 @@ const navbarData = [
   },
   {
     name: 'Forum',
-    path: '/'
+    path: '/forumList'
   },
   {
     name: 'Logout',
