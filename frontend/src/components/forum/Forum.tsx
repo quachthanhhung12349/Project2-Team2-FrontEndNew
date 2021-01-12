@@ -14,13 +14,13 @@ import { Button, Container } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import { postTopic,postMessage } from '../../remote/remote-functions';
-
+import moment from 'moment';
 
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      width: "100%",
+      width: "60%",
       maxWidth: "36ch",
       backgroundColor: theme.palette.background.paper,
     },
@@ -147,10 +147,7 @@ export const Forum: React.FC = (props) => {
                   alignItems="flex-start"
                   onClick={() => getMessagesByForumId(r.forumId, r.topic)}
                 >
-                  {/* <ListItemAvatar>
-            <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-          </ListItemAvatar> */}
-
+             
                   <ListItemText
                     primary={<Typography variant="h4">{r.topic}</Typography>}
                     secondary={
@@ -164,7 +161,7 @@ export const Forum: React.FC = (props) => {
                           by:{r.username}
                           <br />
                         </Typography>
-                        Submitted:{r.timeStamp}
+                        Submitted:{moment(r.timeStamp).format('YYYY-MM-DD HH:mm:ss')}
                       </React.Fragment>
                     }
                   />
@@ -194,7 +191,7 @@ export const Forum: React.FC = (props) => {
               ? message.map((m, index) => (
                   <Message
                     message={m.message}
-                    timestamp={m.timeStamp}
+                    timestamp={moment(m.timeStamp).format('YYYY-MM-DD HH:mm:ss')}
                     doctor={!m.doctorId ? "" : m.doctorId.username}
                     patient={!m.patientId ? "" : m.patientId.username}
                   />
