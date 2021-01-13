@@ -70,6 +70,9 @@ export const RequestList:React.FunctionComponent<any> = () => {
             color: theme.palette.text.secondary,
             
         },
+        accordionBackground: {
+            backgroundColor: "#EDF2FB"
+        },
         rootButton: {
             '&:hover': {
                 backgroundColor: "#014F86",
@@ -83,6 +86,14 @@ export const RequestList:React.FunctionComponent<any> = () => {
             boxShadow: '0 3px 5px 2px rgba(120, 154, 188, 0.3)',
             marginTop: 15
         },
+        doctor: {
+            color: "#014F86",
+            fontWeight: "bold",
+            display: "inline"
+        },
+        accordionHeading: {
+            color: "#012A4A"
+        }
     }),
     )
 
@@ -95,14 +106,14 @@ export const RequestList:React.FunctionComponent<any> = () => {
         return(
             <>
             {console.log(req)}
-            <h4>Doctor's Response:</h4>
+            <h4 className={classes.accordionHeading}>Doctor's Response:</h4>
             <Grid container spacing={1}>
-                <Grid item xs={4}>Doctor's name: {dinfo.firstname} {dinfo.lastname}</Grid>   
+                <Grid  item xs={4}>Doctor's name:{dinfo.firstname} {dinfo.lastname}  </Grid>  
                 <Grid item xs={4}></Grid>
-               
+                <Grid item xs={4}></Grid>
 
-                <Grid item xs={6}>Doctor's contact information: {dinfo.email}</Grid>
-                <Grid item xs={6}>phone: {dinfo.phone}</Grid>
+                <Grid item xs={6}>Doctor's contact information: {dinfo.email}/{dinfo.phone}</Grid>
+                <Grid item xs={6}></Grid>
                 <Grid item xs={12}>Reponse date: {req.timeResponded}</Grid>
                 <Grid item xs={12}>Doctor's reponse: {req.doctorResponse}</Grid>
                 <Grid item xs={12}>Appointment needed: {req.hasappointment ? "Yes" : "No"}</Grid>
@@ -150,7 +161,7 @@ export const RequestList:React.FunctionComponent<any> = () => {
                         <Grid item xs={3}></Grid>
                         {data.map(text => 
                             <Grid item xs={12}>
-                                <Accordion expanded={expanded === `${text.requestId}`} onChange={handleChange(`${text.requestId}`)}>
+                                <Accordion className={classes.accordionBackground} expanded={expanded === `${text.requestId}`} onChange={handleChange(`${text.requestId}`)}>
                                     <AccordionSummary
                                         expandIcon={<ExpandMoreIcon />}
                                         aria-controls="panel1bh-content"
@@ -161,7 +172,7 @@ export const RequestList:React.FunctionComponent<any> = () => {
                                     </AccordionSummary>
                                 <AccordionDetails>
                                     <Typography>
-                                        <h4>Request Information:</h4>
+                                        <h4 className={classes.accordionHeading}>Request Information:</h4>
                                         <Grid container spacing={1}>
                                             <Grid item xs={12}>Request created: {text.timeStamp}</Grid>
                                             <Grid item xs={12}>Problem/Symptoms: {text.problem}</Grid>
