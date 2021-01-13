@@ -246,7 +246,7 @@ export const PatientNavBar:React.FunctionComponent<any> = (props) => {
         })}
       >
         <div className={classes.drawerHeader} />
-        <Typography paragraph>
+        <Typography component="span">
           {props.children}
         </Typography>
       </main>
