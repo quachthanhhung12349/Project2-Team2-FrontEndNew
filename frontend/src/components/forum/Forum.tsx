@@ -13,9 +13,9 @@ import { Message } from "./Message";
 import { Button, Container } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
-import { postTopic,postMessage } from '../../remote/remote-functions';
-import moment from 'moment';
-
+import { postTopic, postMessage } from "../../remote/remote-functions";
+import moment from "moment";
+import { useLocation } from "react-router-dom";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -43,11 +43,15 @@ export const Forum: React.FC = (props) => {
 
   const [inputShow, setInputShow] = useState<boolean>(false);
 
-  const [inputTopic,setInputTopic] = useState<string>();
+  const [inputTopic, setInputTopic] = useState<string>();
 
   const [inputMessage, setInputMessage] = useState<string>();
 
-  const [currentTopic,setCurrentTopic]=useState<number>();
+  const [currentTopic, setCurrentTopic] = useState<number>();
+
+  const [user, setUser] = useState<any>();
+
+  const location: any = useLocation();
 
   async function getMessagesByForumId(forumId: number, topic: string) {
     setIsShow(true);
@@ -69,43 +73,67 @@ export const Forum: React.FC = (props) => {
     }
   }
 
-
-
-  const onPostTopic=async()=>{
-    const topicstring={
-      topic:inputTopic
-    }
-    const data=await postTopic(topicstring);
-    setForums([...forums,data])
-    setInputTopic('');
-    setInputShow(false)
-
-  }
-
-  const handleTopicChange=e=>{
+  const onPostTopic = async () => {
+    const topicstring = {
+      topic: inputTopic,
+      username: user.username,
+    };
+    const data = await postTopic(topicstring);
+    console.log(data);
     
+    setForums([...forums, data]);
+    setInputTopic("");
+    setInputShow(false);
+  };
+
+  const handleTopicChange = (e) => {
     setInputTopic(e.target.value);
-  }
-  const handleMessageChange=e=>{
+  };
+  const handleMessageChange = (e) => {
     setInputMessage(e.target.value);
-    
-  }
+  };
 
-  const onPostMessage=async()=>{
-    const currentInputMessage={
-      message:inputMessage,
-      forumId:{
-        forumId:currentTopic
-      }
-    }
-    const data=await postMessage(currentInputMessage);
-    setInputMessage('')
-    setMessage([...message,data])
+  const onPostMessage = async () => {
+    const currentInputMessage =
+      user.role === "Patient"
+        ? {
+            message: inputMessage,
+            forumId: {
+              forumId: currentTopic,
+            },
+            patientId:{
+              patientId:user.patientId,
+              username:user.username
+            }
+          }
+        : {
+            message: inputMessage,
+            forumId: {
+              forumId: currentTopic,
+            },
+            doctorId:{
+              doctorId:user.doctorId,
+              username:user.username
+            }
+          };
+    const data = await postMessage(currentInputMessage);
+    console.log(data);
     
-  }
-
+    setInputMessage("");
+    setMessage([...message, currentInputMessage]);
+  };
 
   const classes = useStyles();
+
+  function getContent() {
+    location.state.patientInfo !== undefined
+      ? setUser(location.state.patientInfo)
+      : setUser(location.state.doctorInfo);
+  }
+
+  useEffect(() => {
+    getContent();
+  });
 
   useEffect(() => {
     const fetchforum = async () => {
@@ -137,17 +165,21 @@ export const Forum: React.FC = (props) => {
       ) : null}
       {isShow ? <Typography variant="h4">{topic}</Typography> : null}
       <Grid container spacing={3}>
-        
         {!isShow ? (
           <Grid item xs={4}>
-            <Button  onClick={()=>{setInputShow(true)}} >New Post</Button>
+            <Button
+              onClick={() => {
+                setInputShow(true);
+              }}
+            >
+              New Post
+            </Button>
             <List className={classes.root}>
               {forums.map((r, index) => (
                 <ListItem
                   alignItems="flex-start"
                   onClick={() => getMessagesByForumId(r.forumId, r.topic)}
                 >
-             
                   <ListItemText
                     primary={<Typography variant="h4">{r.topic}</Typography>}
                     secondary={
@@ -161,7 +193,8 @@ export const Forum: React.FC = (props) => {
                           by:{r.username}
                           <br />
                         </Typography>
-                        Submitted:{moment(r.timeStamp).format('YYYY-MM-DD HH:mm:ss')}
+                        Submitted:
+                        {moment(r.timeStamp).format("YYYY-MM-DD HH:mm:ss")}
                       </React.Fragment>
                     }
                   />
@@ -174,11 +207,27 @@ export const Forum: React.FC = (props) => {
         ) : null}
         {inputShow ? (
           <div>
-            <TextField id="standard-basic" label="Input your topic" name="topic" value={inputTopic} onChange={handleTopicChange}/><br/>
-            <Button variant="contained" color="primary" type="submit"  onClick={() => onPostTopic()}>
+            <TextField
+              id="standard-basic"
+              label="Input your topic"
+              name="topic"
+              value={inputTopic}
+              onChange={handleTopicChange}
+            />
+            <br />
+            <Button
+              variant="contained"
+              color="primary"
+              type="submit"
+              onClick={() => onPostTopic()}
+            >
               Submit
             </Button>
-            <Button variant="contained" color="primary" onClick={()=>setInputShow(false)}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => setInputShow(false)}
+            >
               Cancel
             </Button>
           </div>
@@ -191,16 +240,28 @@ export const Forum: React.FC = (props) => {
               ? message.map((m, index) => (
                   <Message
                     message={m.message}
-                    timestamp={moment(m.timeStamp).format('YYYY-MM-DD HH:mm:ss')}
+                    timestamp={moment(m.timeStamp).format(
+                      "YYYY-MM-DD HH:mm:ss"
+                    )}
                     doctor={!m.doctorId ? "" : m.doctorId.username}
                     patient={!m.patientId ? "" : m.patientId.username}
                   />
                 ))
               : null}
             {!loading ? (
-              <div >
-                <TextField id="standard-basic" label="Write your post" name="message" value={inputMessage} onChange={handleMessageChange}/>
-                <Button variant="contained" color="primary" onClick={onPostMessage}>
+              <div>
+                <TextField
+                  id="standard-basic"
+                  label="Write your post"
+                  name="message"
+                  value={inputMessage}
+                  onChange={handleMessageChange}
+                />
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={onPostMessage}
+                >
                   Submit
                 </Button>
               </div>
