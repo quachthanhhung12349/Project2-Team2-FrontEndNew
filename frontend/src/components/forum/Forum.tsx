@@ -190,7 +190,7 @@ export const Forum: React.FC = (props) => {
           Back
         </Button>
       ) : null}
-      {isShow ? <div><h1 style={{textAlign:"center"}}>{topic}</h1><Divider variant="inset" component="li" /></div> : null}
+      {isShow ? <div><h1 style={{textAlign:"center"}}>{topic}</h1><Divider /></div> : null}
       <Grid container>
         {!isShow ? (
           <Grid item xs={12}>
