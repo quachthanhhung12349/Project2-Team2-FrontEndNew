@@ -158,7 +158,7 @@ export const Forum: React.FC = (props) => {
 
   useEffect(() => {
     getContent();
-  });
+  },[]);
 
   useEffect(() => {
     const fetchforum = async () => {
