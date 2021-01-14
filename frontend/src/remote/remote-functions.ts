@@ -77,9 +77,9 @@ export const getDoctorsList = async () => {
     }
 }
 
-export const updateStatus = async (doctorId, status) => {
+export const updateStatus = async (doctorId, status, email) => {
     try{
-        let res = await MedicalSystemBaseClient.post(`/doctors/${doctorId}/${status}`)
+        let res = await MedicalSystemBaseClient.post(`/doctors/${doctorId}/${status}/${email}`)
         return res.data;
     }catch(e){
         console.log(e);

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
-import { IconButton, Tooltip, Paper, Grid, InputLabel, TextField, RadioGroup, FormControlLabel, Radio, Button, Select, MenuItem } from '@material-ui/core';
+import { IconButton, Tooltip, Paper, RadioGroup, FormControlLabel, Radio } from '@material-ui/core';
 import { makeStyles, withStyles, Theme, createStyles } from '@material-ui/core/styles';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { getDoctorsList } from '../remote/remote-functions';
@@ -67,10 +67,8 @@ export const Admin: React.FunctionComponent = () => {
 
     const handleChange = () => {
         setUpdate(true);
-        console.log("IN Admin -> " + update)
     }
 
-    console.log(doctorsList);
     return (
         <div>
             <h2 id="adminTitle">ADMIN PORTAL</h2>
@@ -85,34 +83,35 @@ export const Admin: React.FunctionComponent = () => {
                 </IconButton>
             </Tooltip>
             <Paper elevation={3} classes={{ root: classes.root }}>
-                    <h2>Doctor Accounts</h2>
-                    <RadioGroup row name="role" onChange={handleRadioChange} style={{ color: "#012A4A", display: 'flex', justifyContent: 'space-around', width: '50%' }}>
-                        <FormControlLabel
-                            value="Pending"
-                            control={<MyRadio />}
-                            label="Pending"
-                            labelPlacement="start"
-                            style={{ color: "#012A4A" }}
-                        />
-                        <FormControlLabel
-                            value="Approved"
-                            control={<MyRadio />}
-                            label="Approved"
-                            labelPlacement="start"
-                            style={{ color: "#012A4A" }}
-                        />
-                         <FormControlLabel
-                            value="Rejected"
-                            control={<MyRadio />}
-                            label="Rejected"
-                            labelPlacement="start"
-                            style={{ color: "#012A4A" }}
-                        />
-                    </RadioGroup>
+                <h2>Doctor Accounts</h2>
+                <RadioGroup row name="role" onChange={handleRadioChange} style={{ color: "#012A4A", display: 'flex', justifyContent: 'space-around', width: '50%' }}>
+                    <FormControlLabel
+                        value="Pending"
+                        control={<MyRadio />}
+                        label="Pending"
+                        labelPlacement="start"
+                        style={{ color: "#012A4A" }}
+                    />
+                    <FormControlLabel
+                        value="Approved"
+                        control={<MyRadio />}
+                        label="Approved"
+                        labelPlacement="start"
+                        style={{ color: "#012A4A" }}
+                    />
+                    <FormControlLabel
+                        value="Rejected"
+                        control={<MyRadio />}
+                        label="Rejected"
+                        labelPlacement="start"
+                        style={{ color: "#012A4A" }}
+                    />
+                </RadioGroup>
             </Paper>
             <Paper elevation={6} id="listPanel">
-                    <DoctorsList doctorsList={doctorsList} filter={filter} handleChange={handleChange}/>
+                <DoctorsList doctorsList={doctorsList} filter={filter} handleChange={handleChange} />
             </Paper>
+           
 
 
         </div>

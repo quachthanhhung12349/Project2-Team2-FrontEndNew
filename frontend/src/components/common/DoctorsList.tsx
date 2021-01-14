@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { DoctorInfoItem } from './DoctorInfoItem';
 
 interface IDoctorListProps {
@@ -11,7 +11,6 @@ export const DoctorsList: React.FunctionComponent<IDoctorListProps> = (props) =>
     let {doctorsList, filter} = props;
 
     const handleChange =() => {
-        console.log("In List")
         props.handleChange();
     }
 

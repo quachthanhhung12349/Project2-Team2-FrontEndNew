@@ -1,6 +1,6 @@
-import React from 'react';
-import { Paper, Grid, Chip, Avatar, InputLabel, Button, Tooltip, IconButton } from '@material-ui/core';
-import { makeStyles, withStyles, Theme, createStyles } from '@material-ui/core/styles';
+import React, { useState } from 'react';
+import { Paper, Grid, Chip, Avatar, Tooltip, IconButton, LinearProgress } from '@material-ui/core';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import ThumbDownIcon from '@material-ui/icons/ThumbDown';
 import { updateStatus } from '../../remote/remote-functions';
@@ -29,17 +29,12 @@ const useStyles = makeStyles((theme: Theme) =>
             },
             color: "white",
         },
-        rootButton: {
-            '&:hover': {
-                backgroundColor: "#014F86",
-            },
-            background: "#012A4A",
-            border: 0,
-            color: 'white',
-            fontWeight: 'bold',
-            height: 40,
-            boxShadow: '0 3px 5px 2px rgba(120, 154, 188, 0.3)'
+        progressStyle: {
+            backgroundColor: '#EDF2FB'
         },
+        progressBar: {
+            backgroundColor: '#012A4A'
+        }
     })
 );
 
@@ -50,7 +45,7 @@ export const DoctorInfoItem: React.FunctionComponent<any> = (props: any) => {
     const classes = useStyles();
 
     const item = props.item;
-    console.log(item)
+    const [updating, setUpdating] = useState(false)
 
 
     const statusColor = (status) => {
@@ -64,10 +59,10 @@ export const DoctorInfoItem: React.FunctionComponent<any> = (props: any) => {
         }
     }
 
-    const onSubmit = async (doctorId, status) => {
+    const onSubmit = async (doctorId, status, email) => {
         try {
-            let res = await updateStatus(doctorId, status)
-            console.log("in Item")
+            setUpdating(true)
+            let res = await updateStatus(doctorId, status, email)
             props.handleChange();
         } catch (e) {
             console.log(e);
@@ -91,7 +86,7 @@ export const DoctorInfoItem: React.FunctionComponent<any> = (props: any) => {
                         <Tooltip title="Approved">
                             <span>
                             <IconButton
-                                onClick={() => onSubmit(item.doctorId, "Approved")}
+                                onClick={() => onSubmit(item.doctorId, "Approved", item.email)}
                                 disabled={item.status === 'Approved'}
                                 classes={{
                                     root: classes.ApproveButton,
@@ -104,7 +99,7 @@ export const DoctorInfoItem: React.FunctionComponent<any> = (props: any) => {
                     <Grid>
                         <Tooltip title="Reject">
                             <IconButton
-                                onClick={() => onSubmit(item.doctorId, "Rejected")}
+                                onClick={() => onSubmit(item.doctorId, "Rejected", item.email)}
                                 disabled={item.status === 'Rejected'}
                                 classes={{
                                     root: classes.DenyButton,
@@ -115,8 +110,10 @@ export const DoctorInfoItem: React.FunctionComponent<any> = (props: any) => {
                     </Grid>
                 </Grid>
 
-
             </Paper>
+            {updating === true ?
+                <LinearProgress classes={{indeterminate: classes.progressStyle, barColorPrimary: classes.progressBar}}/>
+            :null}
         </>
     );
 }
