@@ -89,6 +89,7 @@ export const postMessage = async(message:any)=>{
     }
 }
 
+<<<<<<< HEAD
 export const postDoctorResponse = async(response:any)=>{
     try{
         let res = await MedicalSystemBaseClient.post('/doctor',response)
@@ -105,6 +106,8 @@ export const postDoctorResponse = async(response:any)=>{
     }
 }
 
+=======
+>>>>>>> c460893b8f1dcef767bace8c1ba0e616b2024e67
 export const getRequestList = async(patientId:any)=>{
     try{
         let res = await MedicalSystemBaseClient.get(`/patient/${patientId}`)
@@ -118,6 +121,7 @@ export const getRequestList = async(patientId:any)=>{
         }
         
     }
+<<<<<<< HEAD
 }
 
 export const getPendingRequestList = async(doctorId:any)=>{
@@ -149,4 +153,6 @@ export const getDocRequestList = async(doctorId:any)=>{
         }
         
     }
+=======
+>>>>>>> c460893b8f1dcef767bace8c1ba0e616b2024e67
 }

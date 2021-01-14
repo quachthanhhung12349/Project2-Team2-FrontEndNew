@@ -1,8 +1,14 @@
+<<<<<<< HEAD
 import React, { useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { IconButton, Tooltip, Paper, Grid, InputLabel, TextField, RadioGroup, FormControlLabel, Radio, Button, Select, MenuItem } from '@material-ui/core';
 import { makeStyles, withStyles, Theme, createStyles } from '@material-ui/core/styles';
 import DoctorNavBar from './DoctorNavBar';
+=======
+import React from 'react';
+import { useLocation } from 'react-router-dom';
+import {DoctorNavBar} from './DoctorNavBar'
+>>>>>>> c460893b8f1dcef767bace8c1ba0e616b2024e67
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -55,6 +61,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export const Doctor: React.FunctionComponent = (props) => {
     const location: any = useLocation();
+<<<<<<< HEAD
     const history = useHistory();
     const classes = useStyles();
 
@@ -150,6 +157,13 @@ export const Doctor: React.FunctionComponent = (props) => {
         </div>
        </DoctorNavBar>
     );
+=======
+    return(
+        <DoctorNavBar doctorInfo={location.state.patientInfo}>
+           {location.state.doctorInfo.username}
+        </DoctorNavBar>
+    )
+>>>>>>> c460893b8f1dcef767bace8c1ba0e616b2024e67
 }
 
 export default Doctor;

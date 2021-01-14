@@ -93,7 +93,11 @@ const navbarData = [
   },
   {
     name: 'Pending requests',
+<<<<<<< HEAD
     path: '/docRequestList',
+=======
+    path: '/',
+>>>>>>> c460893b8f1dcef767bace8c1ba0e616b2024e67
   },
   {
     name: 'Request history',
