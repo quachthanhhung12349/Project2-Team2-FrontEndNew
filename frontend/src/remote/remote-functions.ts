@@ -121,6 +121,24 @@ export const postMessage = async(message:any)=>{
     }
 }
 
+
+export const postDoctorResponse = async(response:any)=>{
+    try{
+        let res = await MedicalSystemBaseClient.post('/doctor',response)
+        console.log("res: "+res);
+        return res.data;
+    }catch(e){
+        console.log(e);
+        if(e.response){
+            throw new Error(e.response.data)
+        } else {
+            throw new Error("OOps Something went wrong?")
+        }
+        
+    }
+}
+
+
 export const getRequestList = async(patientId:any)=>{
     try{
         let res = await MedicalSystemBaseClient.get(`/patient/${patientId}`)
@@ -134,4 +152,37 @@ export const getRequestList = async(patientId:any)=>{
         }
         
     }
+
+}
+
+export const getPendingRequestList = async(doctorId:any)=>{
+    try{
+        let res = await MedicalSystemBaseClient.get(`/pendingRequest/${doctorId}`)
+        return res.data;
+    }catch(e){
+        console.log(e);
+        if(e.response){
+            throw new Error(e.response.data)
+        } else {
+            throw new Error("OOps Something went wrong?")
+        }
+        
+    }
+}
+
+
+export const getDocRequestList = async(doctorId:any)=>{
+    try{
+        let res = await MedicalSystemBaseClient.get(`/doctor/${doctorId}`)
+        return res.data;
+    }catch(e){
+        console.log(e);
+        if(e.response){
+            throw new Error(e.response.data)
+        } else {
+            throw new Error("OOps Something went wrong?")
+        }
+        
+    }
+
 }
