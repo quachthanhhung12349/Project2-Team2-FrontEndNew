@@ -8,6 +8,7 @@ import { Doctor } from './components/Doctor';
 import { PatientHome } from './components/PatientHome';
 import { RequestList } from './components/RequestList';
 import {ForumList} from './components/ForumList'
+import { Request } from './components/Request';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/patient" component={PatientHome} />
           <Route path="/requestList" component={RequestList} />
           <Route path="/forumList" component={ForumList} />
+          <Route path="/request" component={Request}/>
           <Redirect from="/" to="/login" /> 
           
         </Switch>

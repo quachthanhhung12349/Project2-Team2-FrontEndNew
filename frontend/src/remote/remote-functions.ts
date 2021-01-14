@@ -103,3 +103,18 @@ export const getRequestList = async(patientId:any)=>{
         
     }
 }
+
+export const getDoctorList = async()=>{
+    try{
+        let res = await MedicalSystemBaseClient.get(`/doctors`)
+        return res.data;
+    }catch(e){
+        console.log(e);
+        if(e.response){
+            throw new Error(e.response.data)
+        } else {
+            throw new Error("OOps Something went wrong?")
+        }
+        
+    }
+}

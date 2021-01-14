@@ -108,7 +108,7 @@ export const PatientNavBar:React.FunctionComponent<any> = (props) => {
     },
     {
       name: 'Create request',
-      path: '/',
+      path: '/request',
     },
     {
       name: 'Forum',
@@ -202,9 +202,12 @@ export const PatientNavBar:React.FunctionComponent<any> = (props) => {
           paper: classes.drawerPaper,
         }}
       >
+        
         <div className={classes.drawerHeader}>
+          {props.patientInfo ? props.patientInfo.firstname : location.state.patientInfo.firstname }
+          {props.patientInfo ? props.patientInfo.lastname : location.state.patientInfo.lastname }
           <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+          {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
           </IconButton>
         </div>
         <Divider />
