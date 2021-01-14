@@ -8,6 +8,7 @@ import { useLocation } from 'react-router-dom';
 
 export const PatientHome: React.FunctionComponent<any> = () => {
     const location: any = useLocation();
+    const {patientInfo} = location.state;
     return(
         <>
                 <PatientNavBar patientInfo={location.state.patientInfo}>
