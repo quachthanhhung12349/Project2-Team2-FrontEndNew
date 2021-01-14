@@ -13,6 +13,9 @@ export const userLogin = async (role:String, username:String , password:String )
         }else if(role === 'Patient'){
             let res = await MedicalSystemBaseClient.post('/loginPatient', loginCredentials);
             return res.data;
+        }else if(role ==='Admin'){
+            let res = await MedicalSystemBaseClient.post('/loginAdmin', loginCredentials);
+            return res.data;
         }
           
     }catch(e){
@@ -56,6 +59,35 @@ export const patientRegister = async (patientCredentials:any) => {
             throw new Error("OOps Something went wrong?")
         }
         
+    }
+}
+
+export const getDoctorsList = async () => {
+    try{
+        let res = await MedicalSystemBaseClient.get('/doctors')
+        return res.data;
+    }catch(e){
+        console.log(e);
+        if(e.response){
+            throw new Error(e.response.data)
+        } else {
+            throw new Error("OOps Something went wrong?")
+        }
+        
+    }
+}
+
+export const updateStatus = async (doctorId, status, email) => {
+    try{
+        let res = await MedicalSystemBaseClient.post(`/doctors/${doctorId}/${status}/${email}`)
+        return res.data;
+    }catch(e){
+        console.log(e);
+        if(e.response){
+            throw new Error(e.response.data)
+        } else {
+            throw new Error("OOps Something went wrong?")
+        }
     }
 }
 

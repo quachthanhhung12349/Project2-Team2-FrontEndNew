@@ -4,6 +4,7 @@ import { IconButton, Tooltip, Paper, Grid, InputLabel, TextField, RadioGroup, Fo
 import { makeStyles, withStyles, Theme, createStyles } from '@material-ui/core/styles';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { doctorRegister, patientRegister } from '../remote/remote-functions';
+import { styles } from '../assets/styles.js';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -72,6 +73,7 @@ export const Register: React.FunctionComponent = (props) => {
     const [certification, setCertification] = useState("");
     const [speciality, setSpeciality] = useState("");
     const [awards, setAwards] = useState("");
+    const [error, setError] = useState("");
 
 
     const onRegisterSubmit = async () => {
@@ -110,24 +112,32 @@ export const Register: React.FunctionComponent = (props) => {
         }
 
         if (location.state.role === 'Doctor') {
-            try {
-                let user = await doctorRegister(doctorCredentials)
-                history.push('/');
-            } catch (e) {
-                console.log(e);
+            if (firstname && lastname && age && gender && speciality) {
+                try {
+                    let user = await doctorRegister(doctorCredentials)
+                    history.push('/');
+                } catch (e) {
+                    console.log(e);
+                }
+            } else {
+                setError("Please fill out all required fields");
             }
-        }else if (location.state.role === 'Patient') {
-            try {
-                let user = await patientRegister(patientCredentials)
-                console.log("Doctor registered -> " + JSON.stringify(user));
-                history.push({
-                    pathname: '/patient',
-                    state: {  
-                        patientInfo: user
-                    },
-                });
-            } catch (e) {
-                console.log(e);
+        } else if (location.state.role === 'Patient') {
+            if (firstname && lastname && age && gender && healthcardnumber) {
+                try {
+                    let user = await patientRegister(patientCredentials)
+                    console.log("Doctor registered -> " + JSON.stringify(user));
+                    history.push({
+                        pathname: '/patient',
+                        state: {
+                            patientInfo: user
+                        },
+                    });
+                } catch (e) {
+                    console.log(e);
+                }
+            } else {
+                setError("Please fill out all required fields");
             }
         }
 
@@ -159,10 +169,11 @@ export const Register: React.FunctionComponent = (props) => {
             <Paper elevation={3} classes={{ root: classes.paper }}>
                 <Grid container spacing={3} >
                     <Grid item xs={6}>
-                        <InputLabel style={{ marginBottom: 0 }}> First Name </InputLabel>
+                        <InputLabel style={{ marginBottom: 0 }}  className = "required"> First Name </InputLabel>
                         <TextField
                             variant="filled"
                             fullWidth
+                            required
                             value={firstname}
                             onChange={e => setFirstname(e.target.value)}
                             style={{ marginBottom: 5, marginTop: 5 }}
@@ -175,10 +186,11 @@ export const Register: React.FunctionComponent = (props) => {
                         />
                     </Grid>
                     <Grid item xs={6}>
-                        <InputLabel style={{ marginBottom: 0 }}> Last Name </InputLabel>
+                        <InputLabel style={{ marginBottom: 0 }}  className = "required"> Last Name </InputLabel>
                         <TextField
                             variant="filled"
                             fullWidth
+                            required
                             value={lastname}
                             onChange={e => setLastname(e.target.value)}
                             style={{ marginBottom: 5, marginTop: 5 }}
@@ -191,7 +203,7 @@ export const Register: React.FunctionComponent = (props) => {
                         />
                     </Grid>
                     <Grid item xs={6}>
-                        <InputLabel style={{ marginBottom: 0 }}> Age </InputLabel>
+                        <InputLabel style={{ marginBottom: 0 }}  className = "required"> Age </InputLabel>
                         <TextField
                             type="number"
                             variant="filled"
@@ -208,7 +220,7 @@ export const Register: React.FunctionComponent = (props) => {
                         />
                     </Grid>
                     <Grid item xs={6}>
-                        <InputLabel style={{ marginBottom: 0 }}> Gender </InputLabel>
+                        <InputLabel style={{ marginBottom: 0 }}  className = "required"> Gender </InputLabel>
                         <RadioGroup row name="gender" value={gender} onChange={(e: any) => setGender(e.target.value)}>
                             <FormControlLabel value="female" control={<MyRadio />} label="Female" style={{ color: "#012A4A" }} />
                             <FormControlLabel value="male" control={<MyRadio />} label="Male" style={{ color: "#012A4A" }} />
@@ -282,7 +294,7 @@ export const Register: React.FunctionComponent = (props) => {
                     {
                         (location.state.role === 'Patient') ?
                             <Grid item xs={12}>
-                                <InputLabel style={{ marginBottom: 0 }}> Health Card Number </InputLabel>
+                                <InputLabel style={{ marginBottom: 0 }}  className = "required"> Health Card Number </InputLabel>
                                 <TextField
                                     variant="filled"
                                     fullWidth
@@ -305,7 +317,7 @@ export const Register: React.FunctionComponent = (props) => {
                         (location.state.role === 'Doctor') ?
                             <>
                                 <Grid item xs={6}>
-                                    <InputLabel style={{ marginBottom: 0 }}> Speciality </InputLabel>
+                                    <InputLabel style={{ marginBottom: 0 }}  className = "required"> Speciality </InputLabel>
                                     <Select
                                         variant="filled"
                                         value={speciality}
@@ -397,6 +409,7 @@ export const Register: React.FunctionComponent = (props) => {
                                 root: classes.rootButton,
                             }}
                         > REGISTER </Button>
+                        {(error) ? <p style={styles.errorTextStyle}>{error}</p> : null}
                     </Grid>
                 </Grid>
             </Paper>
