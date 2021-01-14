@@ -13,6 +13,9 @@ export const userLogin = async (role:String, username:String , password:String )
         }else if(role === 'Patient'){
             let res = await MedicalSystemBaseClient.post('/loginPatient', loginCredentials);
             return res.data;
+        }else if(role ==='Admin'){
+            let res = await MedicalSystemBaseClient.post('/loginAdmin', loginCredentials);
+            return res.data;
         }
           
     }catch(e){
@@ -59,6 +62,35 @@ export const patientRegister = async (patientCredentials:any) => {
     }
 }
 
+export const getDoctorsList = async () => {
+    try{
+        let res = await MedicalSystemBaseClient.get('/doctors')
+        return res.data;
+    }catch(e){
+        console.log(e);
+        if(e.response){
+            throw new Error(e.response.data)
+        } else {
+            throw new Error("OOps Something went wrong?")
+        }
+        
+    }
+}
+
+export const updateStatus = async (doctorId, status) => {
+    try{
+        let res = await MedicalSystemBaseClient.post(`/doctors/${doctorId}/${status}`)
+        return res.data;
+    }catch(e){
+        console.log(e);
+        if(e.response){
+            throw new Error(e.response.data)
+        } else {
+            throw new Error("OOps Something went wrong?")
+        }
+    }
+}
+
 export const postTopic = async(topic:any)=>{
     try{
         let res = await MedicalSystemBaseClient.post('/forum',topic)
@@ -77,6 +109,21 @@ export const postTopic = async(topic:any)=>{
 export const postMessage = async(message:any)=>{
     try{
         let res = await MedicalSystemBaseClient.post('/message',message)
+        return res.data;
+    }catch(e){
+        console.log(e);
+        if(e.response){
+            throw new Error(e.response.data)
+        } else {
+            throw new Error("OOps Something went wrong?")
+        }
+        
+    }
+}
+
+export const getRequestList = async(patientId:any)=>{
+    try{
+        let res = await MedicalSystemBaseClient.get(`/patient/${patientId}`)
         return res.data;
     }catch(e){
         console.log(e);
