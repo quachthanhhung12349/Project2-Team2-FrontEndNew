@@ -142,7 +142,7 @@ export const Forum: React.FC = (props) => {
     console.log(data);
 
     setInputMessage("");
-    setMessage([...message, currentInputMessage]);
+    setMessage([...message, data]);
   };
 
   const classes = useStyles();
@@ -234,29 +234,7 @@ export const Forum: React.FC = (props) => {
         ) : null}
             <List className={classes.root}>
               {forums.map((r, index) => (
-                // <ListItem
-                //   alignItems="flex-start"
-                //   onClick={() => getMessagesByForumId(r.forumId, r.topic)}
-                // >
-                //   <ListItemText
-                //     primary={<Typography variant="h4">{r.topic}</Typography>}
-                //     secondary={
-                //       <React.Fragment>
-                //         <Typography
-                //           component="span"
-                //           variant="body2"
-                //           className={classes.inline}
-                //           color="textPrimary"
-                //         >
-                //           by:{r.username}
-                //           <br />
-                //         </Typography>
-                //         Submitted:
-                //         {moment(r.timeStamp).format("YYYY-MM-DD HH:mm:ss")}
-                //       </React.Fragment>
-                //     }
-                //   />
-                // </ListItem>
+                
                 <ChatItem
                   avatar={r.role!=="Patient"?"https://www.cliparthut.com/images/150/FPesi.png":"https://www.cliparthut.com/images/149/WDCFg.png"}
                   alt={r.username}
@@ -278,16 +256,7 @@ export const Forum: React.FC = (props) => {
           <Grid item xs={12}>
             {!loading
               ? 
-              // message.map((m, index) => (
-              //       <Message
-              //         message={m.message}
-              //         timestamp={moment(m.timeStamp).format(
-              //           "YYYY-MM-DD HH:mm:ss"
-              //         )}
-              //         doctor={!m.doctorId ? "" : m.doctorId.username}
-              //         patient={!m.patientId ? "" : m.patientId.username}
-              //       />
-              //     ))
+              
                 message.map((m, index) => (
                   <MessageBox
                     
