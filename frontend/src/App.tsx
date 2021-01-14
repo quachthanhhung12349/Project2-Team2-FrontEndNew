@@ -9,6 +9,7 @@ import { PatientHome } from './components/PatientHome';
 import { RequestList } from './components/RequestList';
 import { DocRequestList } from './components/DocRequestList';
 import {ForumList} from './components/ForumList'
+import { DoctorHome } from './components/DoctorHome';
 
 function App() {
   return (
@@ -18,7 +19,7 @@ function App() {
           <Route exact path="/login" component={Login} />
           <Route path="/register" component={Register} />
           <Route path="/admin" component={Admin} />
-          <Route path="/doctor" component={Doctor} />
+          
           <Route path="/patient" component={PatientHome} />
           <Route path="/requestList" component={RequestList} />
           <Route path="/docRequestList" component={DocRequestList} />
