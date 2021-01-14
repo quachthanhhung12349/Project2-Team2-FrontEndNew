@@ -1,10 +1,13 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
+import {DoctorNavBar} from './DoctorNavBar'
 
 export const Doctor: React.FunctionComponent = () => {
     const location: any = useLocation();
     return(
-       <h1>{location.state.doctorInfo.username}</h1>
+        <DoctorNavBar doctorInfo={location.state.patientInfo}>
+           {location.state.doctorInfo.username}
+        </DoctorNavBar>
     )
 }
 
