@@ -13,16 +13,18 @@ import Typography from "@material-ui/core/Typography";
 import { Button } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
-import { postTopic, postMessage } from "../../remote/remote-functions";
+import {
+  postTopic,
+  postMessage,
+  getTopic,
+  getMessage,
+} from "../../remote/remote-functions";
 import moment from "moment";
 import { useLocation } from "react-router-dom";
 // RCE CSS
 import "react-chat-elements/dist/main.css";
 // MessageBox component
-import {
-  MessageBox,
-  ChatItem,
-} from "react-chat-elements";
+import { MessageBox, ChatItem } from "react-chat-elements";
 import "../../assets/primary.scss";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -72,27 +74,22 @@ export const Forum: React.FC = (props) => {
     setLoading(true);
     setInputShow(false);
     setCurrentTopic(forumId);
-    let url = `http://localhost:8080/message/${forumId}`;
-    try {
-      let response = await fetch(url);
-      const data = await response.json();
-      console.log(data);
-      setMessage(data);
-      setLoading(false);
-      return data;
-    } catch (error) {
-      console.log("Request Failed", error);
-    }
+
+    let response = await getMessage(forumId);
+    console.log(response);
+    setMessage(response);
+    setLoading(false);
+    return response;
   }
 
   const onPostTopic = async () => {
-    console.log("inputTopic:"+inputTopic);
-    
-    if (inputTopic?.trim()===""||inputTopic===undefined) {
+    console.log("inputTopic:" + inputTopic);
+
+    if (inputTopic?.trim() === "" || inputTopic === undefined) {
       console.log("null input");
-      alert("input should not be null!!")
+      alert("input should not be null!!");
       return;
-    };
+    }
 
     const topicstring = {
       topic: inputTopic,
@@ -115,13 +112,13 @@ export const Forum: React.FC = (props) => {
   };
 
   const onPostMessage = async () => {
-    console.log("inputmessage:"+inputMessage);
-    
-    if (inputMessage?.trim()===""||inputMessage===undefined) {
+    console.log("inputmessage:" + inputMessage);
+
+    if (inputMessage?.trim() === "" || inputMessage === undefined) {
       console.log("null input");
-      alert("input should not be null!!")
+      alert("input should not be null!!");
       return;
-    };
+    }
     const currentInputMessage =
       user.role === "Patient"
         ? {
@@ -159,7 +156,6 @@ export const Forum: React.FC = (props) => {
     location.state.patientInfo !== undefined
       ? setUser(location.state.patientInfo)
       : setUser(location.state.doctorInfo);
-    console.log(user);
   }
 
   useEffect(() => {
@@ -168,15 +164,9 @@ export const Forum: React.FC = (props) => {
 
   useEffect(() => {
     const fetchforum = async () => {
-      try {
-        const responses = await fetch("http://localhost:8080/forum");
-        const data = await responses.json();
-
-        setForums(data);
-        console.log(data);
-      } catch (e) {
-        console.log(e.message);
-      }
+      const responses = await getTopic();
+      // console.log(responses);
+      setForums(responses);
     };
     fetchforum();
   }, []);

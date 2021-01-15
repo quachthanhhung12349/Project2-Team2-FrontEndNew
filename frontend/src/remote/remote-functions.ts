@@ -106,9 +106,39 @@ export const postTopic = async(topic:any)=>{
     }
 }
 
+export const getTopic = async()=>{
+    try{
+        let res = await MedicalSystemBaseClient.get('/forum/',)
+        return res.data;
+    }catch(e){
+        console.log(e);
+        if(e.response){
+            throw new Error(e.response.data)
+        } else {
+            throw new Error("OOps Something went wrong?")
+        }
+        
+    }
+}
+
 export const postMessage = async(message:any)=>{
     try{
         let res = await MedicalSystemBaseClient.post('/message',message)
+        return res.data;
+    }catch(e){
+        console.log(e);
+        if(e.response){
+            throw new Error(e.response.data)
+        } else {
+            throw new Error("OOps Something went wrong?")
+        }
+        
+    }
+}
+
+export const getMessage = async(forumId:number)=>{
+    try{
+        let res = await MedicalSystemBaseClient.get(`/message/${forumId}`)
         return res.data;
     }catch(e){
         console.log(e);
