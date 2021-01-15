@@ -7,7 +7,7 @@ import AccordionDetails from '@material-ui/core/AccordionDetails';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { Button, Checkbox, Grid, TextareaAutosize, TextField } from '@material-ui/core';
+import { Button, Checkbox, Grid, Paper, TextareaAutosize, TextField } from '@material-ui/core';
 import { getPastRequestList, postDoctorResponse } from '../remote/remote-functions';
 import { useLocation } from 'react-router-dom';
 import DoctorNavBar from './DoctorNavBar';
@@ -52,9 +52,12 @@ export const PastRequestList:React.FunctionComponent<any> = () => {
 
     const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        root: {
-            marginLeft: '5%',
-            marginRight: '5%',
+        paper: {
+            padding: '2rem',
+            position: 'relative',
+            backgroundColor: "#EDF2FB",
+            margin: '2rem',
+            color: '#012A4A'
         },
         heading: {
             fontSize: theme.typography.pxToRem(15),
@@ -63,11 +66,6 @@ export const PastRequestList:React.FunctionComponent<any> = () => {
         },
         secondaryHeading: {
             fontSize: theme.typography.pxToRem(15),
-            color: theme.palette.text.secondary,
-        },
-        paper: {
-            padding: theme.spacing(2),
-            textAlign: 'center',
             color: theme.palette.text.secondary,
         },
     }),
@@ -110,14 +108,12 @@ export const PastRequestList:React.FunctionComponent<any> = () => {
             
             <DoctorNavBar>
                 {console.log(data[0] ? data[0].requestId: "")}
-                <div className={classes.root}>
+
+                 <Paper elevation={3} classes={{ root: classes.paper }}>
                 
                 <Grid container spacing={2}>
-                    <Grid item xs={3}>                    
-                    </Grid>
-                    <Grid item xs={3}>Doctor Name: {data[0] ? data[0].doctorId.firstname : ""}</Grid>
-                    <Grid item xs={3}></Grid>
-                    <Grid item xs={3}></Grid>
+                    <Grid item xs={6}><h2>Responded Patient's Request List</h2></Grid>
+                    <Grid item xs={6}><h2>Doctor Name: {data[0] ? data[0].doctorId.firstname : ""}</h2></Grid>
                     {data.map(text => 
                         <Grid item xs={12}>                            
                             <Accordion expanded={expanded === `${text.requestId}`} onChange={handleChange(`${text.requestId}`)}>
@@ -150,7 +146,7 @@ export const PastRequestList:React.FunctionComponent<any> = () => {
                     )}
                                 
                   </Grid>    
-                </div>                 
+                </Paper>                 
             </DoctorNavBar> 
         )
     

@@ -10,9 +10,10 @@ import Divider from "@material-ui/core/Divider";
 // import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
 // import { Message } from "./Message";
-import { Button } from "@material-ui/core";
+import { Button, Paper, Tooltip, IconButton } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import {
   postTopic,
   postMessage,
@@ -40,6 +41,67 @@ const useStyles = makeStyles((theme: Theme) =>
     bubble: {
       width: "-webkit-fill-available",
       backgroundColor: "red",
+    },
+    paper: {
+      padding: '2rem',
+      // width: '84%',
+      position: 'relative',
+      backgroundColor: "#EDF2FB",
+      margin: '2rem'
+    },
+    button: {
+      '&:hover': {
+        backgroundColor: "#014F86",
+      },
+      background: "#012A4A",
+      borderRadius: "2rem",
+      border: 0,
+      color: 'white',
+      fontWeight: 'bold',
+      height: 40,
+      boxShadow: '0 3px 5px 2px rgba(120, 154, 188, 0.3)',
+      width: '20%',
+      marginBottom: '1rem'
+    },
+    postButton: {
+      '&:hover': {
+        background: "#4BB543",
+      },
+      backgroundColor: '#014F86',
+      color: 'white',
+      fontWeight: 'bolder',
+      width: '10rem',
+      boxShadow: '0 3px 5px 2px rgba(120, 154, 188, 0.3)',
+      marginRight: '5px'
+    },
+    cancelButton: {
+      '&:hover': {
+        background: "#DC143C",
+      },
+      backgroundColor: '#014F86',
+      color: 'white',
+      fontWeight: 'bolder',
+      width: '10rem',
+      boxShadow: '0 3px 5px 2px rgba(120, 154, 188, 0.3)',
+    },
+    backButton: {
+      '&:hover': {
+        color: '#014F86',
+      },
+      color: "white",
+      backgroundColor: "#014F86",
+    },
+    submitButton: {
+      '&:hover': {
+        background: "#4BB543",
+      },
+      backgroundColor: '#014F86',
+      color: 'white',
+      fontWeight: 'bolder',
+      width: '8rem',
+      boxShadow: '0 3px 5px 2px rgba(120, 154, 188, 0.3)',
+      float: "right", 
+      height: '2rem'
     },
   })
 );
@@ -122,27 +184,27 @@ export const Forum: React.FC = (props) => {
     const currentInputMessage =
       user.role === "Patient"
         ? {
-            message: inputMessage,
-            fromusername: user.username,
-            forumId: {
-              forumId: currentTopic,
-            },
-            patientId: {
-              patientId: user.patientId,
-              username: user.username,
-            },
-          }
+          message: inputMessage,
+          fromusername: user.username,
+          forumId: {
+            forumId: currentTopic,
+          },
+          patientId: {
+            patientId: user.patientId,
+            username: user.username,
+          },
+        }
         : {
-            message: inputMessage,
-            fromusername: user.username,
-            forumId: {
-              forumId: currentTopic,
-            },
-            doctorId: {
-              doctorId: user.doctorId,
-              username: user.username,
-            },
-          };
+          message: inputMessage,
+          fromusername: user.username,
+          forumId: {
+            forumId: currentTopic,
+          },
+          doctorId: {
+            doctorId: user.doctorId,
+            username: user.username,
+          },
+        };
     const data = await postMessage(currentInputMessage);
     console.log(data);
 
@@ -172,24 +234,32 @@ export const Forum: React.FC = (props) => {
   }, []);
 
   return (
-    <div
+    <Paper elevation={3} classes={{ root: classes.paper }}>
+      {/* <div
       style={{
         margin: "auto",
         width: "960px",
         borderStyle: "solid",
         borderColor: "lightblue",
       }}
-    >
+    > */}
       {isShow ? (
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => {
-            setIsShow(false);
-          }}
-        >
-          Back
-        </Button>
+        // <Button
+        //   variant="contained"
+        //   color="primary"
+        //   onClick={() => {
+        //     setIsShow(false);
+        //   }}
+        // >
+        //   Back
+        // </Button>
+        <Tooltip  title="Go Back">
+          <IconButton
+            onClick={() => {setIsShow(false)}}
+            classes={{root: classes.backButton}}>
+              <ArrowBackIcon style={{ fontSize: 40 }} />
+          </IconButton>
+        </Tooltip>
       ) : null}
       {isShow ? (
         <div>
@@ -201,9 +271,12 @@ export const Forum: React.FC = (props) => {
         {!isShow ? (
           <Grid item xs={12}>
             <Button
-              variant="outlined"
+              variant="contained"
               onClick={() => {
                 setInputShow(true);
+              }}
+              classes={{
+                root: classes.button,
               }}
             >
               New Post
@@ -220,21 +293,27 @@ export const Forum: React.FC = (props) => {
                   variant="outlined"
                 />
                 <br />
-                <Button
-                  variant="contained"
-                  color="primary"
-                  type="submit"
-                  onClick={() => onPostTopic()}
-                >
-                  Post
+                <div style={{ margin: '1rem' }}>
+                  <Button
+                    variant="contained"
+                    type="submit"
+                    onClick={() => onPostTopic()}
+                    classes={{
+                      root: classes.postButton,
+                    }}
+                  >
+                    Post
                 </Button>
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  onClick={() => setInputShow(false)}
-                >
-                  Cancel
+                  <Button
+                    variant="contained"
+                    onClick={() => setInputShow(false)}
+                    classes={{
+                      root: classes.cancelButton,
+                    }}
+                  >
+                    Cancel
                 </Button>
+                </div>
               </div>
             ) : null}
             <List className={classes.root}>
@@ -264,18 +343,18 @@ export const Forum: React.FC = (props) => {
           <Grid item xs={12}>
             {!loading
               ? message.map((m, index) => (
-                  <MessageBox
-                    type={"text"}
-                    text={"by:" + m.fromusername}
-                    title={m.message}
-                    dateString={moment(m.timeStamp).format(
-                      "YYYY-MM-DD HH:mm:ss"
-                    )}
-                    position={
-                      user.username !== m.fromusername ? "left" : "right"
-                    }
-                  />
-                ))
+                <MessageBox
+                  type={"text"}
+                  text={"by:" + m.fromusername}
+                  title={m.message}
+                  dateString={moment(m.timeStamp).format(
+                    "YYYY-MM-DD HH:mm:ss"
+                  )}
+                  position={
+                    user.username !== m.fromusername ? "left" : "right"
+                  }
+                />
+              ))
               : null}
             {!loading ? (
               <div
@@ -283,21 +362,26 @@ export const Forum: React.FC = (props) => {
                   float: "right",
                   marginTop: "30px",
                   textAlign: "center",
+                  display: 'flex',
+                  alignItems: 'flex-end'
                 }}
               >
                 <TextField
                   id="standard-basic"
                   label="Write your post"
                   name="message"
+                  multiline
+                  rows={4}
                   value={inputMessage}
                   onChange={handleMessageChange}
                   variant="outlined"
+                  style={{marginRight: '1rem', width: '20rem', backgroundColor:'white'}}
                 />
                 <Button
                   variant="contained"
                   color="primary"
                   onClick={onPostMessage}
-                  style={{ float: "right", marginTop: "15px" }}
+                  classes={{root: classes.submitButton}}
                 >
                   Submit
                 </Button>
@@ -306,6 +390,7 @@ export const Forum: React.FC = (props) => {
           </Grid>
         ) : null}
       </Grid>
-    </div>
+      {/* </div> */}
+    </Paper>
   );
 };

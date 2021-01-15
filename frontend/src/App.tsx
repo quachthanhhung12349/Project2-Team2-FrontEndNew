@@ -10,7 +10,6 @@ import { RequestList } from './components/RequestList';
 import { DocRequestList } from './components/DocRequestList';
 import { PastRequestList } from './components/PastRequestList';
 import {ForumList} from './components/ForumList'
-import { DoctorHome } from './components/DoctorHome';
 
 function App() {
   return (
