@@ -1,51 +1,108 @@
-import { spawn } from "child_process";
+// import { spawn } from "child_process";
 import React, { useState, useEffect } from "react";
-import { forumList, messageList } from "./mockups";
+// import { forumList, messageList } from "./mockups";
 import { createStyles, Theme, makeStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
+// import ListItem from "@material-ui/core/ListItem";
 import Divider from "@material-ui/core/Divider";
-import ListItemText from "@material-ui/core/ListItemText";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import Avatar from "@material-ui/core/Avatar";
+// import ListItemText from "@material-ui/core/ListItemText";
+// import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+// import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
-import { Message } from "./Message";
-import { Button, Container } from "@material-ui/core";
+// import { Message } from "./Message";
+import { Button, Paper, Tooltip, IconButton } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
-import { postTopic, postMessage } from "../../remote/remote-functions";
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import {
+  postTopic,
+  postMessage,
+  getTopic,
+  getMessage,
+} from "../../remote/remote-functions";
 import moment from "moment";
 import { useLocation } from "react-router-dom";
 // RCE CSS
 import "react-chat-elements/dist/main.css";
 // MessageBox component
-import {
-  MessageBox,
-  MessageList,
-  ChatList,
-  ChatItem,
-  Input,
-} from "react-chat-elements";
-import '../../assets/primary.scss';
-
-
+import { MessageBox, ChatItem } from "react-chat-elements";
+import "../../assets/primary.scss";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       width: "100%",
       backgroundColor: theme.palette.background.paper,
-      margin:"auto",
+      margin: "auto",
     },
     inline: {
       display: "inline",
     },
-    bubble:{
+    bubble: {
       width: "-webkit-fill-available",
-      backgroundColor:"red"
+      backgroundColor: "red",
     },
-    
-    
+    paper: {
+      padding: '2rem',
+      // width: '84%',
+      position: 'relative',
+      backgroundColor: "#EDF2FB",
+      margin: '2rem'
+    },
+    button: {
+      '&:hover': {
+        backgroundColor: "#014F86",
+      },
+      background: "#012A4A",
+      borderRadius: "2rem",
+      border: 0,
+      color: 'white',
+      fontWeight: 'bold',
+      height: 40,
+      boxShadow: '0 3px 5px 2px rgba(120, 154, 188, 0.3)',
+      width: '20%',
+      marginBottom: '1rem'
+    },
+    postButton: {
+      '&:hover': {
+        background: "#4BB543",
+      },
+      backgroundColor: '#014F86',
+      color: 'white',
+      fontWeight: 'bolder',
+      width: '10rem',
+      boxShadow: '0 3px 5px 2px rgba(120, 154, 188, 0.3)',
+      marginRight: '5px'
+    },
+    cancelButton: {
+      '&:hover': {
+        background: "#DC143C",
+      },
+      backgroundColor: '#014F86',
+      color: 'white',
+      fontWeight: 'bolder',
+      width: '10rem',
+      boxShadow: '0 3px 5px 2px rgba(120, 154, 188, 0.3)',
+    },
+    backButton: {
+      '&:hover': {
+        color: '#014F86',
+      },
+      color: "white",
+      backgroundColor: "#014F86",
+    },
+    submitButton: {
+      '&:hover': {
+        background: "#4BB543",
+      },
+      backgroundColor: '#014F86',
+      color: 'white',
+      fontWeight: 'bolder',
+      width: '8rem',
+      boxShadow: '0 3px 5px 2px rgba(120, 154, 188, 0.3)',
+      float: "right", 
+      height: '2rem'
+    },
   })
 );
 
@@ -79,20 +136,23 @@ export const Forum: React.FC = (props) => {
     setLoading(true);
     setInputShow(false);
     setCurrentTopic(forumId);
-    let url = `http://localhost:8080/message/${forumId}`;
-    try {
-      let response = await fetch(url);
-      const data = await response.json();
-      console.log(data);
-      setMessage(data);
-      setLoading(false);
-      return data;
-    } catch (error) {
-      console.log("Request Failed", error);
-    }
+
+    let response = await getMessage(forumId);
+    console.log(response);
+    setMessage(response);
+    setLoading(false);
+    return response;
   }
 
   const onPostTopic = async () => {
+    console.log("inputTopic:" + inputTopic);
+
+    if (inputTopic?.trim() === "" || inputTopic === undefined) {
+      console.log("null input");
+      alert("input should not be null!!");
+      return;
+    }
+
     const topicstring = {
       topic: inputTopic,
       username: user.username,
@@ -114,30 +174,37 @@ export const Forum: React.FC = (props) => {
   };
 
   const onPostMessage = async () => {
+    console.log("inputmessage:" + inputMessage);
+
+    if (inputMessage?.trim() === "" || inputMessage === undefined) {
+      console.log("null input");
+      alert("input should not be null!!");
+      return;
+    }
     const currentInputMessage =
       user.role === "Patient"
         ? {
-            message: inputMessage,
-            fromusername:user.username,
-            forumId: {
-              forumId: currentTopic,
-            },
-            patientId: {
-              patientId: user.patientId,
-              username: user.username,
-            },
-          }
+          message: inputMessage,
+          fromusername: user.username,
+          forumId: {
+            forumId: currentTopic,
+          },
+          patientId: {
+            patientId: user.patientId,
+            username: user.username,
+          },
+        }
         : {
-            message: inputMessage,
-            fromusername:user.username,
-            forumId: {
-              forumId: currentTopic,
-            },
-            doctorId: {
-              doctorId: user.doctorId,
-              username: user.username,
-            },
-          };
+          message: inputMessage,
+          fromusername: user.username,
+          forumId: {
+            forumId: currentTopic,
+          },
+          doctorId: {
+            doctorId: user.doctorId,
+            username: user.username,
+          },
+        };
     const data = await postMessage(currentInputMessage);
     console.log(data);
 
@@ -148,98 +215,118 @@ export const Forum: React.FC = (props) => {
   const classes = useStyles();
 
   function getContent() {
-    
     location.state.patientInfo !== undefined
       ? setUser(location.state.patientInfo)
       : setUser(location.state.doctorInfo);
-      console.log(user);
-      
   }
 
   useEffect(() => {
     getContent();
-  },[]);
+  }, []);
 
   useEffect(() => {
     const fetchforum = async () => {
-      try {
-        const responses = await fetch("http://localhost:8080/forum");
-        const data = await responses.json();
-
-        setForums(data);
-        console.log(data);
-        
-        
-      } catch (e) {
-        console.log(e.message);
-      }
+      const responses = await getTopic();
+      // console.log(responses);
+      setForums(responses);
     };
     fetchforum();
   }, []);
 
   return (
-    <div style={{margin:"auto", width:"960px",borderStyle:"solid",borderColor:"lightblue"}}>
+    <Paper elevation={3} classes={{ root: classes.paper }}>
+      {/* <div
+      style={{
+        margin: "auto",
+        width: "960px",
+        borderStyle: "solid",
+        borderColor: "lightblue",
+      }}
+    > */}
       {isShow ? (
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => {
-            setIsShow(false);
-          }}
-        >
-          Back
-        </Button>
+        // <Button
+        //   variant="contained"
+        //   color="primary"
+        //   onClick={() => {
+        //     setIsShow(false);
+        //   }}
+        // >
+        //   Back
+        // </Button>
+        <Tooltip  title="Go Back">
+          <IconButton
+            onClick={() => {setIsShow(false)}}
+            classes={{root: classes.backButton}}>
+              <ArrowBackIcon style={{ fontSize: 40 }} />
+          </IconButton>
+        </Tooltip>
       ) : null}
-      {isShow ? <div><h1 style={{textAlign:"center"}}>{topic}</h1><Divider /></div> : null}
+      {isShow ? (
+        <div>
+          <h1 style={{ textAlign: "center" }}>{topic}</h1>
+          <Divider />
+        </div>
+      ) : null}
       <Grid container>
         {!isShow ? (
           <Grid item xs={12}>
             <Button
-              variant="outlined"
+              variant="contained"
               onClick={() => {
                 setInputShow(true);
+              }}
+              classes={{
+                root: classes.button,
               }}
             >
               New Post
             </Button>
             {inputShow ? (
-          <div style={{textAlign:"center",marginTop:"30px"}}>
-            <TextField
-              id="standard-basic"
-              label="Input your topic"
-              fullWidth
-              value={inputTopic}
-              onChange={handleTopicChange}
-              multiline
-              variant="outlined"
-            />
-            <br />
-            <Button
-              variant="contained"
-              color="primary"
-              type="submit"
-              onClick={() => onPostTopic()}
-            >
-              Post
-            </Button>
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={() => setInputShow(false)}
-            >
-              Cancel
-            </Button>
-            
-          </div>
-        ) : null}
+              <div style={{ textAlign: "center", marginTop: "30px" }}>
+                <TextField
+                  id="standard-basic"
+                  label="Input your topic"
+                  fullWidth
+                  value={inputTopic}
+                  onChange={handleTopicChange}
+                  multiline
+                  variant="outlined"
+                />
+                <br />
+                <div style={{ margin: '1rem' }}>
+                  <Button
+                    variant="contained"
+                    type="submit"
+                    onClick={() => onPostTopic()}
+                    classes={{
+                      root: classes.postButton,
+                    }}
+                  >
+                    Post
+                </Button>
+                  <Button
+                    variant="contained"
+                    onClick={() => setInputShow(false)}
+                    classes={{
+                      root: classes.cancelButton,
+                    }}
+                  >
+                    Cancel
+                </Button>
+                </div>
+              </div>
+            ) : null}
             <List className={classes.root}>
               {forums.map((r, index) => (
-                
                 <ChatItem
-                  avatar={r.role!=="Patient"?"https://www.cliparthut.com/images/150/FPesi.png":"https://www.cliparthut.com/images/149/WDCFg.png"}
+                  avatar={
+                    r.role !== "Patient"
+                      ? "https://www.cliparthut.com/images/150/FPesi.png"
+                      : "https://www.cliparthut.com/images/149/WDCFg.png"
+                  }
                   alt={r.username}
                   title={r.topic}
-                  subtitle={"by:"+r.username}
+                  subtitle={"by:" + r.username}
                   dateString={moment(r.timeStamp).format("YYYY-MM-DD HH:mm:ss")}
                   onClick={() => getMessagesByForumId(r.forumId, r.topic)}
                 />
@@ -249,43 +336,52 @@ export const Forum: React.FC = (props) => {
             </List>
           </Grid>
         ) : null}
-        
+
         {/* <Button onClick= {()=>getMessagesByForumId(3)}>click</Button> */}
         {loading ? <Typography variant="h4">Loading......</Typography> : null}
         {isShow ? (
           <Grid item xs={12}>
             {!loading
-              ? 
-              
-                message.map((m, index) => (
-                  <MessageBox
-                    
-                    type={"text"}
-                    text={"by:"+m.fromusername}
-                    title={m.message}
-                    dateString={moment(m.timeStamp).format("YYYY-MM-DD HH:mm:ss")}
-                    position={user.username!=m.fromusername?"left":"right"}
-                  />
-                ))
+              ? message.map((m, index) => (
+                <MessageBox
+                  type={"text"}
+                  text={"by:" + m.fromusername}
+                  title={m.message}
+                  dateString={moment(m.timeStamp).format(
+                    "YYYY-MM-DD HH:mm:ss"
+                  )}
+                  position={
+                    user.username !== m.fromusername ? "left" : "right"
+                  }
+                />
+              ))
               : null}
             {!loading ? (
-              <div style={{float:"right",marginTop:"30px",textAlign:"center"}}>
+              <div
+                style={{
+                  float: "right",
+                  marginTop: "30px",
+                  textAlign: "center",
+                  display: 'flex',
+                  alignItems: 'flex-end'
+                }}
+              >
                 <TextField
                   id="standard-basic"
                   label="Write your post"
                   name="message"
-                  
+                  multiline
+                  rows={4}
                   value={inputMessage}
                   onChange={handleMessageChange}
                   variant="outlined"
-                  
+                  style={{marginRight: '1rem', width: '20rem', backgroundColor:'white'}}
                 />
                 <Button
                   variant="contained"
                   color="primary"
                   onClick={onPostMessage}
-                  style={{float:"right",marginTop:"15px"}}
-                  
+                  classes={{root: classes.submitButton}}
                 >
                   Submit
                 </Button>
@@ -294,6 +390,7 @@ export const Forum: React.FC = (props) => {
           </Grid>
         ) : null}
       </Grid>
-    </div>
+      {/* </div> */}
+    </Paper>
   );
 };

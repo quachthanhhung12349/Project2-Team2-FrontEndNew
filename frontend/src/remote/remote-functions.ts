@@ -106,9 +106,39 @@ export const postTopic = async(topic:any)=>{
     }
 }
 
+export const getTopic = async()=>{
+    try{
+        let res = await MedicalSystemBaseClient.get('/forum/',)
+        return res.data;
+    }catch(e){
+        console.log(e);
+        if(e.response){
+            throw new Error(e.response.data)
+        } else {
+            throw new Error("OOps Something went wrong?")
+        }
+        
+    }
+}
+
 export const postMessage = async(message:any)=>{
     try{
         let res = await MedicalSystemBaseClient.post('/message',message)
+        return res.data;
+    }catch(e){
+        console.log(e);
+        if(e.response){
+            throw new Error(e.response.data)
+        } else {
+            throw new Error("OOps Something went wrong?")
+        }
+        
+    }
+}
+
+export const getMessage = async(forumId:number)=>{
+    try{
+        let res = await MedicalSystemBaseClient.get(`/message/${forumId}`)
         return res.data;
     }catch(e){
         console.log(e);
@@ -190,6 +220,22 @@ export const getDoctorList = async()=>{
 export const getPendingRequestList = async(doctorId:any)=>{
     try{
         let res = await MedicalSystemBaseClient.get(`/pendingRequest/${doctorId}`)
+        console.log(JSON.stringify(res));
+        return res.data;
+    }catch(e){
+        console.log(e);
+        if(e.response){
+            throw new Error(e.response.data)
+        } else {
+            throw new Error("OOps Something went wrong?")
+        }
+        
+    }
+}
+
+export const getPastRequestList = async(doctorId:any)=>{
+    try{
+        let res = await MedicalSystemBaseClient.get(`/resolvedRequest/${doctorId}`)
         return res.data;
     }catch(e){
         console.log(e);
