@@ -200,6 +200,21 @@ export const getPendingRequestList = async(doctorId:any)=>{
     }
 }
 
+export const getPastRequestList = async(doctorId:any)=>{
+    try{
+        let res = await MedicalSystemBaseClient.get(`/resolvedRequest/${doctorId}`)
+        return res.data;
+    }catch(e){
+        console.log(e);
+        if(e.response){
+            throw new Error(e.response.data)
+        } else {
+            throw new Error("OOps Something went wrong?")
+        }
+        
+    }
+}
+
 
 export const getDocRequestList = async(doctorId:any)=>{
     try{

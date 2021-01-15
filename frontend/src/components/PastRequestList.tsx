@@ -8,7 +8,7 @@ import AccordionSummary from '@material-ui/core/AccordionSummary';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { Button, Checkbox, Grid, TextareaAutosize, TextField } from '@material-ui/core';
-import { getPendingRequestList, postDoctorResponse } from '../remote/remote-functions';
+import { getPastRequestList, postDoctorResponse } from '../remote/remote-functions';
 import { useLocation } from 'react-router-dom';
 import DoctorNavBar from './DoctorNavBar';
 import { textChangeRangeIsUnchanged } from 'typescript';
@@ -36,10 +36,16 @@ interface IReqList{
     timeStamp:string,
     requestId:number
     prescription:string
+    doctorresponse:string
+    hasappointment:boolean
 }
 
+const useStyles = makeStyles((theme: Theme) =>
+createStyles({
+     }),
+);
 
-export const DocRequestList:React.FunctionComponent<any> = () => {
+export const PastRequestList:React.FunctionComponent<any> = () => {
 
     const [data, setRequestList] = useState<IReqList[]>([])
     const location: any = useLocation()
@@ -67,51 +73,23 @@ export const DocRequestList:React.FunctionComponent<any> = () => {
     }),
     )
 
-    const [prescription,setPrescription] = useState<string>("");
-    const [doctorresponse,setDocRes] = useState<string>("");
-    const [hasappointment, setAppointment] = useState<boolean>(false);
-
-    const handlePrescription=e=>{
-        setPrescription(e.target.value);
-      }
-
-      const handleDocRes=e=>{        
-        setDocRes(e.target.value);   
-      }
-
-      const handleAppointment = (event: any) => {
-        setAppointment(true);
-      };
-
-   const postDocResponse=async(reqid)=>{       
-        const docResponse={
-             prescription,
-             doctorresponse,
-             requestId:reqid,
-             hasappointment     
-          }
-       const data=await postDoctorResponse(docResponse);
-        setPrescription("")
-        setDocRes("")
-        setExpanded(false)        
-      }
 
     function getDoctorInfo(pinfo:IPatient){
         
         return(
             <>
-            <b>Patient Details:</b><br/>
-            
-           Name: {pinfo.firstname} {pinfo.lastname}<br/>
-           email: {pinfo.email} <br/>
-           Phone: {pinfo.phone}
+            <b>Patient Details:</b>
+            <br/>
+             Name: {pinfo.firstname} {pinfo.lastname}<br/>
+             email: {pinfo.email} <br/>
+             Phone: {pinfo.phone}
              
             </>
         )
     }
 
     async function getContent(){       
-        let getReqList = await getPendingRequestList(location.state.doctorInfo.doctorId)
+        let getReqList = await getPastRequestList(location.state.doctorInfo.doctorId)
         setRequestList(getReqList) 
     } 
 
@@ -126,7 +104,8 @@ export const DocRequestList:React.FunctionComponent<any> = () => {
         const handleChange = (panel: string) => (event: React.ChangeEvent<{}>, isExpanded: boolean) => {
           setExpanded(isExpanded ? panel : false);
         }
-        
+
+       
         return(
             
             <DoctorNavBar>
@@ -134,8 +113,7 @@ export const DocRequestList:React.FunctionComponent<any> = () => {
                 <div className={classes.root}>
                 
                 <Grid container spacing={2}>
-                    <Grid item xs={3}>
-                    
+                    <Grid item xs={3}>                    
                     </Grid>
                     <Grid item xs={3}>Doctor Name: {data[0] ? data[0].doctorId.firstname : ""}</Grid>
                     <Grid item xs={3}></Grid>
@@ -155,40 +133,16 @@ export const DocRequestList:React.FunctionComponent<any> = () => {
                                 </AccordionSummary>
                             <AccordionDetails>
                                 <Typography>
-                                     {getDoctorInfo(text.patientId)}<br/><br/>
-                                    
-                                     <b>Problem/Symptoms</b>: {text.problem}<br/><br/>
-                                   
-                                     <b>Medication:</b> <br/>   
-                                        <TextField
-                                                id="outlined-required"
-                                                label="Medication details"
-                                                value={prescription} onChange={handlePrescription}
-                                                variant="outlined"
-                                                style={{ width: 500}}
-                                                />
+                                    {getDoctorInfo(text.patientId)}<br/><br/>                                    
+                                    <b>Problem:</b> {text.problem}<br/><br/>                                   
+                                    <b>Medication:</b> <br/>  
+                                    {text.prescription}
                                     <br/>  <br/> 
-                                    <b> Advice to patient: </b><br/>       
-                                    <TextField
-                                                id="outlined-required"
-                                                label="Any Precautions"
-                                                value={doctorresponse} onChange={handleDocRes}
-                                                variant="outlined"
-                                                style={{ width: 500}}
-                                                />                                      
-                                   
-                                            <br/> <br/> 
-                                           
-                                    <b>Need Appointment:</b>
-                                    <input
-                                        type="checkbox"
-                                        onChange={handleAppointment}
-                                        />
-                                       <br/>
-                                    <Button variant="contained" color="primary" onClick={()=>postDocResponse(text.requestId)}>
-                                        Submit
-                                    </Button>                                                    
-                                           
+                                    <b>Advice to patient:</b> <br/>       
+                                    {text.doctorresponse} <br/> <br/>                                             
+                                    <b>Appointment:</b> &nbsp;
+                                    {text.hasappointment? "Required" : "Not Required"}     
+                                    {console.log("appnt: "+text.hasappointment)}                                 
                                 </Typography>
                             </AccordionDetails>
                             </Accordion>
@@ -196,7 +150,7 @@ export const DocRequestList:React.FunctionComponent<any> = () => {
                     )}
                                 
                   </Grid>    
-                </div>                
+                </div>                 
             </DoctorNavBar> 
         )
     
