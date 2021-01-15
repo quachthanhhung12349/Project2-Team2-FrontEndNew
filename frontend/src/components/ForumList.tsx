@@ -1,7 +1,7 @@
 import React from 'react'
 import PatientNavBar from './PatientNavBar'
 import {Forum}  from './forum'
-import { useHistory, useLocation } from 'react-router';
+import {useLocation } from 'react-router';
 import DoctorNavBar from './DoctorNavBar'
 
 
