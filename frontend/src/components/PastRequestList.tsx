@@ -1,17 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import axios from 'axios'
-import PatientNavBar from './PatientNavBar'
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { Button, Checkbox, Grid, Paper, TextareaAutosize, TextField } from '@material-ui/core';
-import { getPastRequestList, postDoctorResponse } from '../remote/remote-functions';
+import {  Grid, Paper} from '@material-ui/core';
+import { getPastRequestList} from '../remote/remote-functions';
 import { useLocation } from 'react-router-dom';
 import DoctorNavBar from './DoctorNavBar';
-import { textChangeRangeIsUnchanged } from 'typescript';
 
 interface IPatient{
     healthCardNumber:number,
@@ -107,13 +104,11 @@ export const PastRequestList:React.FunctionComponent<any> = () => {
         return(
             
             <DoctorNavBar>
-                {console.log(data[0] ? data[0].requestId: "")}
 
                  <Paper elevation={3} classes={{ root: classes.paper }}>
                 
                 <Grid container spacing={2}>
                     <Grid item xs={6}><h2>Responded Patient's Request List</h2></Grid>
-                    <Grid item xs={6}><h2>Doctor Name: {data[0] ? data[0].doctorId.firstname : ""}</h2></Grid>
                     {data.map(text => 
                         <Grid item xs={12}>                            
                             <Accordion expanded={expanded === `${text.requestId}`} onChange={handleChange(`${text.requestId}`)}>
@@ -137,8 +132,7 @@ export const PastRequestList:React.FunctionComponent<any> = () => {
                                     <b>Advice to patient:</b> <br/>       
                                     {text.doctorresponse} <br/> <br/>                                             
                                     <b>Appointment:</b> &nbsp;
-                                    {text.hasappointment? "Required" : "Not Required"}     
-                                    {console.log("appnt: "+text.hasappointment)}                                 
+                                    {text.hasappointment? "Required" : "Not Required"}                                   
                                 </Typography>
                             </AccordionDetails>
                             </Accordion>

@@ -95,10 +95,10 @@ export const DocRequestList: React.FunctionComponent<any> = () => {
 
     const postDocResponse = async (reqid) => {
         const docResponse = {
-            prescription,
-            doctorresponse,
+            prescription: prescription,
+            doctorresponse: doctorresponse,
             requestId: reqid,
-            hasappointment
+            hasappointment: hasappointment
         }
         if(hasappointment || prescription || doctorresponse){
         const data = await postDoctorResponse(docResponse);
@@ -141,14 +141,12 @@ export const DocRequestList: React.FunctionComponent<any> = () => {
     return (
 
         <DoctorNavBar>
-            {console.log(data[0] ? data[0].requestId : "")}
             <Paper elevation={3} classes={{ root: classes.paper }}>
 
                 <Grid container spacing={2}>
                     <Grid item xs={6}><h2>Pending Patient's Request List</h2></Grid>
-                    <Grid item xs={6}><h2>Doctor: {data[0] ? data[0].doctorId.firstname : ""}</h2></Grid>
-                    {data.map(text =>
-                        <Grid item xs={12}>
+                    {data.map((text, i) =>
+                        <Grid item xs={12} key={i}>
                             <Accordion expanded={expanded === `${text.requestId}`} onChange={handleChange(`${text.requestId}`)}>
                                 <AccordionSummary
                                     expandIcon={<ExpandMoreIcon />}
