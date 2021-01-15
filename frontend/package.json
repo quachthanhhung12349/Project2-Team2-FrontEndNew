@@ -1,5 +1,5 @@
 {
-  "name": "frontend",
+  "name": "proj2",
   "version": "0.1.0",
   "private": true,
   "homepage": "https://haochengca.github.io/Project2-Team2-FrontEndNew",
@@ -30,7 +30,7 @@
     "web-vitals": "^0.2.4"
   },
   "scripts": {
-    "start": "BROWSER='Google Chrome' react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -56,5 +56,9 @@
   "devDependencies": {
     "@types/material-ui": "^0.21.8",
     "@types/react-router-dom": "^5.1.7"
-  }
+  },
+  "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
+  "main": "index.js",
+  "author": "",
+  "license": "ISC"
 }

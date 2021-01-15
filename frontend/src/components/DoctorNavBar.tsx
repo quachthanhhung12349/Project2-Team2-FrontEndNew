@@ -93,11 +93,11 @@ const navbarData = [
   },
   {
     name: 'Pending requests',
-    path: '/',
+    path: '/docRequestList',
   },
   {
     name: 'Request history',
-    path: '/',
+    path: '/pastRequestList',
   },
   {
     name: 'Forum',
