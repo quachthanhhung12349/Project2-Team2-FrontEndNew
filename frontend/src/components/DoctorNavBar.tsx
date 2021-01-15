@@ -97,7 +97,7 @@ const navbarData = [
   },
   {
     name: 'Request history',
-    path: '/',
+    path: '/pastRequestList',
   },
   {
     name: 'Forum',
