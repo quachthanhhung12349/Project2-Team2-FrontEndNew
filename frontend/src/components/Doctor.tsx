@@ -153,7 +153,7 @@ export const Doctor: React.FunctionComponent = (props) => {
     );
 
     return(
-        <DoctorNavBar doctorInfo={location.state.patientInfo}>
+        <DoctorNavBar doctorInfo={location.state.doctorInfo}>
            {location.state.doctorInfo.username}
         </DoctorNavBar>
     )
