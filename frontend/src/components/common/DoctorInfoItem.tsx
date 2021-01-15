@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Paper, Grid, Chip, Avatar, Tooltip, IconButton, LinearProgress } from '@material-ui/core';
+import { Paper, Grid, Chip, Avatar, Tooltip, IconButton, LinearProgress, Fade, Backdrop, Modal } from '@material-ui/core';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import ThumbDownIcon from '@material-ui/icons/ThumbDown';
 import { updateStatus } from '../../remote/remote-functions';
+import { createTrue } from 'typescript';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -34,7 +35,22 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         progressBar: {
             backgroundColor: '#012A4A'
-        }
+        },
+        modal: {
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginLeft: '15%',
+            marginRight: '15%'
+        },
+        modelPaper: {
+            display: 'flex',
+            justifyContent: 'center',
+            backgroundColor: theme.palette.background.paper,
+            border: '2px solid #000',
+            boxShadow: theme.shadows[5],
+            color: '#012A4A'
+        },
     })
 );
 
@@ -46,6 +62,7 @@ export const DoctorInfoItem: React.FunctionComponent<any> = (props: any) => {
 
     const item = props.item;
     const [updating, setUpdating] = useState(false)
+    const [model, setModel] = useState(false)
 
 
     const statusColor = (status) => {
@@ -71,7 +88,7 @@ export const DoctorInfoItem: React.FunctionComponent<any> = (props: any) => {
 
     return (
         <>
-            <Paper elevation={1} classes={{ root: classes.paperItem }}>
+            <Paper elevation={1} classes={{ root: classes.paperItem }} onClick={() => setModel(true)}>
                 <Grid container spacing={1}>
                     <Grid item xs={3} style={{ marginTop: 8, marginLeft: 10 }}>
                         {statusColor(item.status)}
@@ -85,14 +102,14 @@ export const DoctorInfoItem: React.FunctionComponent<any> = (props: any) => {
                     <Grid>
                         <Tooltip title="Approved">
                             <span>
-                            <IconButton
-                                onClick={() => onSubmit(item.doctorId, "Approved", item.email)}
-                                disabled={item.status === 'Approved'}
-                                classes={{
-                                    root: classes.ApproveButton,
-                                }}>
-                                <ThumbUpIcon style={{ fontSize: 35 }} />
-                            </IconButton>
+                                <IconButton
+                                    onClick={() => onSubmit(item.doctorId, "Approved", item.email)}
+                                    disabled={item.status === 'Approved'}
+                                    classes={{
+                                        root: classes.ApproveButton,
+                                    }}>
+                                    <ThumbUpIcon style={{ fontSize: 35 }} />
+                                </IconButton>
                             </span>
                         </Tooltip>
                     </Grid>
@@ -112,8 +129,41 @@ export const DoctorInfoItem: React.FunctionComponent<any> = (props: any) => {
 
             </Paper>
             {updating === true ?
-                <LinearProgress classes={{indeterminate: classes.progressStyle, barColorPrimary: classes.progressBar}}/>
-            :null}
+                <LinearProgress classes={{ indeterminate: classes.progressStyle, barColorPrimary: classes.progressBar }} />
+                : null}
+            <Modal
+                className={classes.modal}
+                open={model}
+                onClose={() => setModel(false)}
+                closeAfterTransition
+                BackdropComponent={Backdrop}
+                BackdropProps={{
+                    timeout: 500,
+                }}
+            >
+                <Fade in={model}>
+                    <Grid container className={classes.modelPaper}>
+                        <Grid item xs={4} style={{display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', backgroundColor: '#EDF2FB'}}>
+                            <h2>Dr. {item.firstname} {item.lastname}</h2>
+                            <h4>{item.speciality}</h4>
+                        </Grid>
+                        <Grid item xs={4}>
+                            <h3 style={{textDecoration: 'underline'}}>SUMMARY</h3>
+                            <h4>Age: {item.age}</h4>
+                            <h4>Gender: {item.gender}</h4>
+                            <h4>Languages Spoken: {item.language}</h4>
+                            <h4>Education: {item.education}</h4>
+                            <h4>Certifications: {item.certification}</h4>
+                        </Grid>
+                        <Grid item xs={4}>
+                            <h3  style={{textDecoration: 'underline'}}>PRIMARY LOCATION OF PRACTICE</h3>
+                            <h4>Address: {item.address}</h4>
+                            <h4> Phone: {item.phone}</h4>
+                            <h4>Email Address: {item.email}</h4>
+                        </Grid>
+                    </Grid>
+                </Fade>
+            </Modal>
         </>
     );
 }

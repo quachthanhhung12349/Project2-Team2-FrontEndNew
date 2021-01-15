@@ -188,6 +188,7 @@ export const getRequestList = async(patientId:any)=>{
 export const getPendingRequestList = async(doctorId:any)=>{
     try{
         let res = await MedicalSystemBaseClient.get(`/pendingRequest/${doctorId}`)
+        console.log(JSON.stringify(res));
         return res.data;
     }catch(e){
         console.log(e);

@@ -1,162 +1,70 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import { IconButton, Tooltip, Paper, Grid, InputLabel, TextField, RadioGroup, FormControlLabel, Radio, Button, Select, MenuItem } from '@material-ui/core';
-import { makeStyles, withStyles, Theme, createStyles } from '@material-ui/core/styles';
+import { Paper, Divider, IconButton } from '@material-ui/core';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import DoctorNavBar from './DoctorNavBar';
+import EditIcon from '@material-ui/icons/Edit';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        root: {
-            '&$underline': {
-                borderBottom: '0',
-            },
+        paper: {
+            padding: '2rem',
+            position: 'relative',
+            width: '50%',
+            display: 'flex',
+            flexDirection: 'column',
+            backgroundColor: "white",
+            color: '#014F86',
+            marginBottom: '5rem'
         },
-        underline: {
-            '&:after': {
-                borderBottom: '2px solid #012A4A',
-            },
-        },
-        backButton: {
+        editButton: {
             '&:hover': {
                 color: '#014F86',
             },
             color: "#012A4A",
             backgroundColor: "#EDF2FB",
-            position: 'absolute',
-            top: 5,
-            left: 5,
-        },
-        paper: {
-            padding: '2rem',
-            margin: 'auto',
-            width: '84%',
-            position: 'relative',
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            backgroundColor: "#EDF2FB",
-        },
-        rootButton: {
-            '&:hover': {
-                backgroundColor: "#014F86",
-            },
-            background: "#012A4A",
-            borderRadius: "2rem",
-            border: 0,
-            color: 'white',
-            fontWeight: 'bold',
-            height: 40,
-            boxShadow: '0 3px 5px 2px rgba(120, 154, 188, 0.3)',
-            width: '20%',
-            float: 'right'
         },
     })
 );
 
 export const Doctor: React.FunctionComponent = (props) => {
     const location: any = useLocation();
-
     const history = useHistory();
     const classes = useStyles();
+    const { firstname, lastname, speciality, age, gender, phone, email, address, education, certification, awards } = location.state.doctorInfo;
 
     return (
         <DoctorNavBar>
-        <div>
-            <h2 id="registerationTitle">Doctor Details</h2>
-            <Paper elevation={3} classes={{ root: classes.paper }}>
-                <Grid container spacing={3} >
-                    <Grid item xs={6}>
-                        <InputLabel style={{ marginBottom: 0 }}> First Name </InputLabel>
-                        <TextField
-                            id="filled-required"
-                            value={location.state.doctorInfo.firstname}
-                            variant="filled"
-                            />
-                    </Grid>
-                    <Grid item xs={6}>
-                        <InputLabel style={{ marginBottom: 0 }}> Last Name </InputLabel>
-                        <TextField
-                            id="filled-required"
-                            value={location.state.doctorInfo.lastname}
-                            variant="filled"
-                            />
-                    </Grid>
-                    <Grid item xs={6}>
-                        <InputLabel style={{ marginBottom: 0 }}> Age </InputLabel>
-                        <TextField
-                            id="filled-required"
-                            value={location.state.doctorInfo.age}
-                            variant="filled"
-                            />
-                    </Grid>
-                    <Grid item xs={6}>
-                        <InputLabel style={{ marginBottom: 0 }}> Gender </InputLabel>
-                        <TextField
-                            id="filled-required"
-                            value={location.state.doctorInfo.gender}
-                            variant="filled"
-                            />
-                    </Grid>
-                    <Grid item xs={6}>
-                        <InputLabel style={{ marginBottom: 0 }}> Phone Number</InputLabel>
-                        <TextField
-                            id="filled-required"
-                            value={location.state.doctorInfo.phone}
-                            variant="filled"
-                            />
-                    </Grid>
-                    <Grid item xs={6}>
-                        <InputLabel style={{ marginBottom: 0 }}> Email Address</InputLabel>
-                        <TextField
-                            id="filled-required"
-                            value={location.state.doctorInfo.email}
-                            variant="filled"
-                            />
-                    </Grid>
-                    <Grid item xs={6}>
-                        <InputLabel style={{ marginBottom: 0 }}> Residential Address </InputLabel>
-                        <TextField
-                            id="filled-required"
-                            value={location.state.doctorInfo.address}
-                            variant="filled"
-                            />
-                    </Grid>
-                    <Grid item xs={6}>
-                        <InputLabel style={{ marginBottom: 0 }}> Education </InputLabel>
-                        <TextField
-                            id="filled-required"
-                            value={location.state.doctorInfo.education}
-                            variant="filled"
-                            />
-                    </Grid>
-                    <Grid item xs={6}>
-                        <InputLabel style={{ marginBottom: 0 }}> Certifications </InputLabel>
-                        <TextField
-                            id="filled-required"
-                            value={location.state.doctorInfo.certification}
-                            variant="filled"
-                            />
-                    </Grid>
-                    <Grid item xs={6}>
-                        <InputLabel style={{ marginBottom: 0 }}> Awards </InputLabel>
-                        <TextField
-                            id="filled-required"
-                            value={location.state.doctorInfo.awards}
-                            variant="filled"
-                            />
-                    </Grid>
-                   
-                </Grid>
-            </Paper>
-        </div>
-       </DoctorNavBar>
-    );
-
-    return(
-        <DoctorNavBar doctorInfo={location.state.doctorInfo}>
-           {location.state.doctorInfo.username}
+            <div style={{ minHeight: '100vh', height: 'auto', backgroundColor: '#EDF2FB', display: 'flex', alignItems: 'center', flexDirection: "column" }}>
+                <div className="doctorHome">
+                    <h2>WELCOME</h2>
+                    <h1 style={{ textAlign: 'center' }}>Dr. {firstname} {lastname} <br />Speciality: {speciality}</h1>
+                </div>
+                <Paper elevation={3} classes={{ root: classes.paper }}>
+                    <div style={{display:'flex', justifyContent:'space-between'}}>
+                        <h2>Personal Information</h2>
+                        {/* <IconButton
+                            className='float-right'
+                            onClick={() => history.push('/')}
+                            classes={{
+                                root: classes.editButton,
+                            }}>
+                            <EditIcon style={{ fontSize: 30 }} />
+                        </IconButton> */}
+                    </div>
+                    <Divider />
+                    <h3>Age: {age}</h3>
+                    <h3>Gneder: {gender}</h3>
+                    <h3>Phone: {phone}</h3>
+                    <h3>Email: {email}</h3>
+                    <h3>Address<br />{address}</h3>
+                    <h3>Education<br />{education}</h3>
+                    <h3>Certifications<br />{certification}</h3>
+                    <h3>Awards<br />{awards}</h3>
+                </Paper>
+            </div>
         </DoctorNavBar>
-    )
+    );
 
 }
 
