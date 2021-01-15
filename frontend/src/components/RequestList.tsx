@@ -15,6 +15,7 @@ import { Preview, print } from 'react-html2pdf';
 interface IPatient{
     healthcardnumber:number,
     firstname:string,
+    lastname:string
 
 }
 
@@ -32,7 +33,7 @@ interface IReqList{
     responsed:boolean,
     timeStamp:string,
     requestId:number
-    doctorResponse:string
+    doctorresponse:string
     hasappointment:boolean
     prescription:string
     timeResponded:string
@@ -114,8 +115,8 @@ export const RequestList:React.FunctionComponent<any> = () => {
 
                 <Grid item xs={6}>Doctor's contact information: {dinfo.email}/{dinfo.phone}</Grid>
                 <Grid item xs={6}></Grid>
-                <Grid item xs={12}>Reponse date: {req.timeResponded}</Grid>
-                <Grid item xs={12}>Doctor's reponse: {req.doctorResponse}</Grid>
+                <Grid item xs={12}>Reponse date: {req.timeStamp}</Grid>
+                <Grid item xs={12}>Doctor's reponse: {req.doctorresponse}</Grid>
                 <Grid item xs={12}>Appointment needed: {req.hasappointment ? "Yes" : "No"}</Grid>
                 <Grid item xs={12}>Prescription: {req.prescription ? req.prescription : "N/A"}</Grid>
                 <Grid item xs={12}><Button variant="contained" onClick={() => downloadDom()} classes={{
@@ -156,7 +157,7 @@ export const RequestList:React.FunctionComponent<any> = () => {
                         <Grid item xs={3}>
                         
                         </Grid>
-                        <Grid item xs={3}>{data[0] ? data[0].patientId.firstname : ""}</Grid>
+                        <Grid item xs={3}>{data[0] ? data[0].patientId.firstname : ""} {data[0] ? data[0].patientId.lastname : ""}</Grid>
                         <Grid item xs={3}>HCN:{data[0] ? data[0].patientId.healthcardnumber: ""}</Grid>
                         <Grid item xs={3}></Grid>
                         {data.map(text => 

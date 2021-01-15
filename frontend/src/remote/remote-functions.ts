@@ -138,6 +138,21 @@ export const postDoctorResponse = async(response:any)=>{
     }
 }
 
+export const postPatientRequest = async(pReq:any)=>{
+    try{
+        let res = await MedicalSystemBaseClient.post('/patient/req', pReq)
+        return res.data;
+    }catch(e){
+        console.log(e);
+        if(e.response){
+            throw new Error(e.response.data)
+        } else {
+            throw new Error("OOps Something went wrong?")
+        }
+        
+    }
+}
+
 
 export const getRequestList = async(patientId:any)=>{
     try{
