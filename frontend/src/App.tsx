@@ -10,6 +10,7 @@ import { RequestList } from './components/RequestList';
 import { DocRequestList } from './components/DocRequestList';
 import { PastRequestList } from './components/PastRequestList';
 import {ForumList} from './components/ForumList'
+import { Request } from './components/Request';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="/docRequestList" component={DocRequestList} />
           <Route path="/pastRequestList" component={PastRequestList} />
           <Route path="/forumList" component={ForumList} />
+          <Route path="/request" component={Request}/>
           <Redirect from="/" to="/login" /> 
           
         </Switch>

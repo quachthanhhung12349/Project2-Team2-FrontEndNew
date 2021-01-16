@@ -114,9 +114,9 @@ export const DocRequestList: React.FunctionComponent<any> = () => {
             <>
                 <b>Patient Details:</b><br />
 
-           Name: {pinfo.firstname} {pinfo.lastname}<br />
-           email: {pinfo.email} <br />
-           Phone: {pinfo.phone}
+           Name: {pinfo ? pinfo.firstname: "" } {pinfo ? pinfo.lastname : ""}<br />
+           email: {pinfo ? pinfo.email : ""} <br />
+           Phone: {pinfo ? pinfo.phone : ""}
 
             </>
         )
