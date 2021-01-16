@@ -55,6 +55,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     drawerPaper: {
       width: drawerWidth,
+      color: '#014F86'
     },
     drawerHeader: {
       display: 'flex',
@@ -66,7 +67,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     content: {
       flexGrow: 1,
-      padding: theme.spacing(3),
       transition: theme.transitions.create('margin', {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
@@ -82,7 +82,10 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     toolbar: {
       backgroundColor: "#014F86"
-    }
+    },
+    iconStyle: {
+      color: "#012A4A",
+  },
   }),
 );
 
@@ -208,27 +211,27 @@ export const DoctorNavBar:React.FunctionComponent<any> = (props) => {
         <List>
 
           <ListItem onClick={homeClicked}  button key={navbarData[0].name}>
-          <ListItemIcon><HomeIcon/></ListItemIcon>
+          <ListItemIcon><HomeIcon classes={{root: classes.iconStyle}}/></ListItemIcon>
           <ListItemText primary={navbarData[0].name} />
           </ListItem>
 
           <ListItem onClick={pendingRequestListClicked}  button key={navbarData[1].name}>
-          <ListItemIcon><DescriptionIcon/></ListItemIcon>
+          <ListItemIcon><DescriptionIcon classes={{root: classes.iconStyle}}/></ListItemIcon>
           <ListItemText primary={navbarData[1].name} />
           </ListItem>
 
           <ListItem onClick={requestHistoryClicked}  button key={navbarData[2].name}>
-          <ListItemIcon><NoteAddIcon/></ListItemIcon>
+          <ListItemIcon><NoteAddIcon classes={{root: classes.iconStyle}}/></ListItemIcon>
           <ListItemText primary={navbarData[2].name} />
           </ListItem>
 
           <ListItem onClick={forumClicked}  button key={navbarData[3].name}>
-          <ListItemIcon><SpeakerNotesIcon/></ListItemIcon>
+          <ListItemIcon><SpeakerNotesIcon classes={{root: classes.iconStyle}}/></ListItemIcon>
           <ListItemText primary={navbarData[3].name} />
           </ListItem>
 
           <ListItem onClick={logoutClicked} button key={navbarData[4].name}>
-          <ListItemIcon><ExitToAppIcon/></ListItemIcon>
+          <ListItemIcon><ExitToAppIcon classes={{root: classes.iconStyle}}/></ListItemIcon>
           <ListItemText primary={navbarData[4].name} />
           </ListItem>
 
@@ -241,10 +244,8 @@ export const DoctorNavBar:React.FunctionComponent<any> = (props) => {
           [classes.contentShift]: open,
         })}
       >
-        <div className={classes.drawerHeader} />
-        <Typography paragraph>
+          <div className={classes.drawerHeader} />
           {props.children}
-        </Typography>
       </main>
     </div>
   );

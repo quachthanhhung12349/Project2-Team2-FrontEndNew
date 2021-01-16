@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond&family=Comfortaa:wght@300&display=swap');
 
+
 $primary0: #EDF2FB;
 $primary1: #A9D6E5;
 $primary2: #2A6F97;
@@ -112,4 +113,18 @@ body{
 
 .rce-mbox{
   width:600px !important
+}
+
+/**************** Doctor   ********************/
+
+.doctorHome{
+  background-image: url("img/medicalBack.jpg");
+  background-size: cover;
+  width: 100%;
+  height: 15rem;
+  display: flex;
+  align-items:center ;
+  justify-content:center;
+  flex-direction: column;
+  color: $primary3
 }

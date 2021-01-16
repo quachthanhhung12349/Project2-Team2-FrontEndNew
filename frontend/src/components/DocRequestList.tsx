@@ -1,203 +1,224 @@
 import React, { useEffect, useState } from 'react'
-import axios from 'axios'
-import PatientNavBar from './PatientNavBar'
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { Button, Checkbox, Grid, TextareaAutosize, TextField } from '@material-ui/core';
+import { Button, Paper, Grid, TextField } from '@material-ui/core';
 import { getPendingRequestList, postDoctorResponse } from '../remote/remote-functions';
 import { useLocation } from 'react-router-dom';
 import DoctorNavBar from './DoctorNavBar';
-import { textChangeRangeIsUnchanged } from 'typescript';
+import { styles } from '../assets/styles.js';
 
-interface IPatient{
-    healthCardNumber:number,
-    firstname:string,
-    lastname:string
-    email:string
-    phone:string
+interface IPatient {
+    healthCardNumber: number,
+    firstname: string,
+    lastname: string
+    email: string
+    phone: string
 
 }
 
-interface IDoctor{
-    firstname:string
-    lastname:string
-    email:string
-    phone:string
+interface IDoctor {
+    firstname: string
+    lastname: string
+    email: string
+    phone: string
 }
-interface IReqList{
-    patientId:IPatient,
-    doctorId:IDoctor,
-    problem:string,
-    responsed:boolean,
-    timeStamp:string,
-    requestId:number
-    prescription:string
+interface IReqList {
+    patientId: IPatient,
+    doctorId: IDoctor,
+    problem: string,
+    responsed: boolean,
+    timeStamp: string,
+    requestId: number
+    prescription: string
 }
 
 
-export const DocRequestList:React.FunctionComponent<any> = () => {
+export const DocRequestList: React.FunctionComponent<any> = () => {
 
     const [data, setRequestList] = useState<IReqList[]>([])
     const location: any = useLocation()
+    const [expanded, setExpanded] = React.useState<string | false>(false);
 
     const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        root: {
-            marginLeft: '5%',
-            marginRight: '5%',
-        },
-        heading: {
-            fontSize: theme.typography.pxToRem(15),
-            flexBasis: '33.33%',
-            flexShrink: 0,
-        },
-        secondaryHeading: {
-            fontSize: theme.typography.pxToRem(15),
-            color: theme.palette.text.secondary,
-        },
-        paper: {
-            padding: theme.spacing(2),
-            textAlign: 'center',
-            color: theme.palette.text.secondary,
-        },
-    }),
+        createStyles({
+            paper: {
+                padding: '2rem',
+                position: 'relative',
+                backgroundColor: "#EDF2FB",
+                margin: '2rem',
+                color: '#012A4A'
+            },
+            heading: {
+                fontSize: theme.typography.pxToRem(15),
+                flexBasis: '33.33%',
+                flexShrink: 0,
+            },
+            secondaryHeading: {
+                fontSize: theme.typography.pxToRem(15),
+                color: theme.palette.text.secondary,
+            },
+            submitButton: {
+                '&:hover': {
+                    background: "#4BB543",
+                },
+                backgroundColor: '#014F86',
+                color: 'white',
+                fontWeight: 'bolder',
+                width: '8rem',
+                boxShadow: '0 3px 5px 2px rgba(120, 154, 188, 0.3)',
+                float: "right",
+                height: '2rem'
+            },
+        }),
     )
 
-    const [prescription,setPrescription] = useState<string>("");
-    const [doctorresponse,setDocRes] = useState<string>("");
+    const [prescription, setPrescription] = useState<string>("");
+    const [doctorresponse, setDocRes] = useState<string>("");
     const [hasappointment, setAppointment] = useState<boolean>(false);
+    const [error, setError] = useState<boolean>(false);
 
-    const handlePrescription=e=>{
+    const handlePrescription = e => {
         setPrescription(e.target.value);
-      }
+    }
 
-      const handleDocRes=e=>{        
-        setDocRes(e.target.value);   
-      }
+    const handleDocRes = e => {
+        setDocRes(e.target.value);
+    }
 
-      const handleAppointment = (event: any) => {
+    const handleAppointment = (event: any) => {
         setAppointment(true);
-      };
+    };
 
-   const postDocResponse=async(reqid)=>{       
-        const docResponse={
-             prescription,
-             doctorresponse,
-             requestId:reqid,
-             hasappointment     
-          }
-       const data=await postDoctorResponse(docResponse);
-        setPrescription("")
-        setDocRes("")
-        setExpanded(false)        
-      }
+    const postDocResponse = async (reqid) => {
+        const docResponse = {
+            prescription: prescription,
+            doctorresponse: doctorresponse,
+            requestId: reqid,
+            hasappointment: hasappointment
+        }
+        if(hasappointment || prescription || doctorresponse){
+        const data = await postDoctorResponse(docResponse);
+        setExpanded(false)
+        }else{
+            setError(true)
+        }
+    }
 
-    function getDoctorInfo(pinfo:IPatient){
-        
-        return(
+    function getDoctorInfo(pinfo: IPatient) {
+
+        return (
             <>
-            <b>Patient Details:</b><br/>
-            
-           Name: {pinfo.firstname} {pinfo.lastname}<br/>
-           email: {pinfo.email} <br/>
+                <b>Patient Details:</b><br />
+
+           Name: {pinfo.firstname} {pinfo.lastname}<br />
+           email: {pinfo.email} <br />
            Phone: {pinfo.phone}
-             
+
             </>
         )
     }
 
-    async function getContent(){       
+    async function getContent() {
         let getReqList = await getPendingRequestList(location.state.doctorInfo.doctorId)
-        setRequestList(getReqList) 
-    } 
+        setRequestList(getReqList)
+    }
 
-     useEffect(() => {
+    useEffect(() => {
         getContent()
-    }, [])
+    }, [expanded])
 
-    
-        const classes = useStyles();
-        const [expanded, setExpanded] = React.useState<string | false>(false);
-      
-        const handleChange = (panel: string) => (event: React.ChangeEvent<{}>, isExpanded: boolean) => {
-          setExpanded(isExpanded ? panel : false);
-        }
-        
-        return(
-            
-            <DoctorNavBar>
-                {console.log(data[0] ? data[0].requestId: "")}
-                <div className={classes.root}>
-                
+
+    const classes = useStyles();
+
+    const handleChange = (panel: string) => (event: React.ChangeEvent<{}>, isExpanded: boolean) => {
+        setExpanded(isExpanded ? panel : false);
+    }
+
+    return (
+
+        <DoctorNavBar>
+            <Paper elevation={3} classes={{ root: classes.paper }}>
+
                 <Grid container spacing={2}>
-                    <Grid item xs={3}>
-                    
-                    </Grid>
-                    <Grid item xs={3}>Doctor Name: {data[0] ? data[0].doctorId.firstname : ""}</Grid>
-                    <Grid item xs={3}></Grid>
-                    <Grid item xs={3}></Grid>
-                    {data.map(text => 
-                        <Grid item xs={12}>                            
+                    <Grid item xs={6}><h2>Pending Patient's Request List</h2></Grid>
+                    {data.map((text, i) =>
+                        <Grid item xs={12} key={i}>
                             <Accordion expanded={expanded === `${text.requestId}`} onChange={handleChange(`${text.requestId}`)}>
                                 <AccordionSummary
                                     expandIcon={<ExpandMoreIcon />}
                                     aria-controls="panel1bh-content"
                                     id="panel1bh-header"
-                                    >
+                                >
                                     <Typography className={classes.heading} >Reference number: {text.requestId}
-                                    <input type='hidden' name="props.requestid" value={text.requestId} />
+                                        <input type='hidden' name="props.requestid" value={text.requestId} />
                                     </Typography>
                                     <Typography className={classes.secondaryHeading}>Status: {text.responsed ? "Resolved" : "Pending"}</Typography>
                                 </AccordionSummary>
-                            <AccordionDetails>
-                                <Typography>
-                                     {getDoctorInfo(text.patientId)}<br/><br/>
-                                    
-                                     <b>Problem/Symptoms</b>: {text.problem}<br/><br/>
-                                   
-                                     <b>Medication:</b> <br/>   
-                                        <TextField
+                                <AccordionDetails>
+                                    <Typography style={{ width: "100%", padding: '3rem' }}>
+                                        {getDoctorInfo(text.patientId)}<br /><br />
+
+                                        <b>Problem/Symptoms</b>: {text.problem}<br /><br />
+
+                                        <Grid container spacing={3}>
+                                            <Grid item xs={6}>
+                                            <b>Medication:</b> <br />
+                                            <TextField
                                                 id="outlined-required"
                                                 label="Medication details"
+                                                multiline
+                                                rows={5}
+                                                fullWidth
                                                 value={prescription} onChange={handlePrescription}
                                                 variant="outlined"
-                                                style={{ width: 500}}
-                                                />
-                                    <br/>  <br/> 
-                                    <b> Advice to patient: </b><br/>       
-                                    <TextField
+                                                style={{ marginTop: '5px' }}
+                                            />
+                                            </Grid>
+                                            <Grid item xs={6}>
+                                            <b> Advice to patient: </b><br />
+                                            <TextField
                                                 id="outlined-required"
                                                 label="Any Precautions"
+                                                multiline
+                                                rows={5}
+                                                fullWidth
                                                 value={doctorresponse} onChange={handleDocRes}
                                                 variant="outlined"
-                                                style={{ width: 500}}
-                                                />                                      
-                                   
-                                            <br/> <br/> 
-                                           
-                                    <b>Need Appointment:</b>
-                                    <input
-                                        type="checkbox"
-                                        onChange={handleAppointment}
+                                                style={{ marginTop: '5px' }}
+                                            />
+                                            </Grid>
+                                        </Grid>
+
+                                        <br /> <br />
+
+                                        <b>Need Appointment:</b>
+                                        <input
+                                            type="checkbox"
+                                            onChange={handleAppointment}
                                         />
-                                       <br/>
-                                    <Button variant="contained" color="primary" onClick={()=>postDocResponse(text.requestId)}>
-                                        Submit
-                                    </Button>                                                    
-                                           
-                                </Typography>
-                            </AccordionDetails>
+                                        <br />
+                                        <Button
+                                            variant="contained"
+                                            color="primary"
+                                            onClick={() => postDocResponse(text.requestId)}
+                                            classes={{ root: classes.submitButton }}>
+                                            Submit
+                                    </Button>
+                                    {(error) ? <p style={styles.errorTextStyle}>Please give response</p> : null}
+
+                                    </Typography>
+                                </AccordionDetails>
                             </Accordion>
                         </Grid>
                     )}
-                                
-                  </Grid>    
-                </div>                
-            </DoctorNavBar> 
-        )
-    
+
+                </Grid>
+            </Paper>
+        </DoctorNavBar>
+    )
+
 }
