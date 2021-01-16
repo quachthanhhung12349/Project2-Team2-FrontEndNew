@@ -124,6 +124,7 @@ export const PastRequestList:React.FunctionComponent<any> = () => {
                                 </AccordionSummary>
                             <AccordionDetails>
                                 <Typography>
+                                    {console.log(text)}
                                     {getDoctorInfo(text.patientId)}<br/><br/>                                    
                                     <b>Problem:</b> {text.problem}<br/><br/>                                   
                                     <b>Medication:</b> <br/>  
