@@ -17,7 +17,7 @@ interface IPatient {
     lastname: string
     email: string
     phone: string
-
+    timeStamp: string,
 }
 
 interface IDoctor {
@@ -116,8 +116,7 @@ export const DocRequestList: React.FunctionComponent<any> = () => {
 
            Name: {pinfo ? pinfo.firstname: "" } {pinfo ? pinfo.lastname : ""}<br />
            email: {pinfo ? pinfo.email : ""} <br />
-           Phone: {pinfo ? pinfo.phone : ""}
-
+           Phone: {pinfo ? pinfo.phone : ""}<br />
             </>
         )
     }
@@ -162,7 +161,8 @@ export const DocRequestList: React.FunctionComponent<any> = () => {
                                     <Typography style={{ width: "100%", padding: '3rem' }}>
                                         {getDoctorInfo(text.patientId)}<br /><br />
 
-                                        <b>Problem/Symptoms</b>: {text.problem}<br /><br />
+                                        <b>Problem/Symptoms</b>: {text.problem}<br />
+                                        <b>Requested Date:</b> {text.timeStamp}<br /><br />
 
                                         <Grid container spacing={3}>
                                             <Grid item xs={6}>

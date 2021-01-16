@@ -35,6 +35,7 @@ interface IReqList{
     prescription:string
     doctorresponse:string
     hasappointment:boolean
+    timeresponded:string
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -126,7 +127,8 @@ export const PastRequestList:React.FunctionComponent<any> = () => {
                                 <Typography>
                                     {console.log(text)}
                                     {getDoctorInfo(text.patientId)}<br/><br/>                                    
-                                    <b>Problem:</b> {text.problem}<br/><br/>                                   
+                                    <b>Problem:</b> {text.problem}<br/><br/>    
+                                    <b>Responded Date:</b> {text.timeresponded}<br /><br />                               
                                     <b>Medication:</b> <br/>  
                                     {text.prescription}
                                     <br/>  <br/> 
