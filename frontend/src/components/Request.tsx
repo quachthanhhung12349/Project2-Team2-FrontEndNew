@@ -99,7 +99,8 @@ export const Request: React.FunctionComponent<any> = () => {
                 <div>
                 
                 <Grid container spacing={2}>
-                    {docList.map(elem =>
+                    {docList.filter((doctorsList) => doctorsList.status === 'Approved')
+                    .map(elem =>
                         <Grid item xs={12}>
                             <Accordion expanded={expanded === `${elem.doctorId}`} onChange={handleChange(`${elem.doctorId}`)}>
                                 <AccordionSummary
@@ -107,7 +108,7 @@ export const Request: React.FunctionComponent<any> = () => {
                                     aria-controls="panel1bh-content"
                                     id="panel1bh-header"
                                     >
-                                    <Typography className={classes.heading}>Dr. {elem.firstname} {elem.lastname}</Typography>
+                                    <Typography className={classes.heading}>Dr. {elem.firstname} {elem.lastname} - {elem.speciality}</Typography>
                                     <Typography> </Typography>
                                 </AccordionSummary>
 

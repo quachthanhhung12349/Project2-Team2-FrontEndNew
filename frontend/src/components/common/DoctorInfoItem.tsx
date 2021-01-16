@@ -81,6 +81,7 @@ export const DoctorInfoItem: React.FunctionComponent<any> = (props: any) => {
             setUpdating(true)
             let res = await updateStatus(doctorId, status, email)
             props.handleChange();
+            setUpdating(false)
         } catch (e) {
             console.log(e);
         }
@@ -88,7 +89,7 @@ export const DoctorInfoItem: React.FunctionComponent<any> = (props: any) => {
 
     return (
         <>
-            <Paper elevation={1} classes={{ root: classes.paperItem }} onClick={() => setModel(true)}>
+            <Paper elevation={1} classes={{ root: classes.paperItem }}>
                 <Grid container spacing={1}>
                     <Grid item xs={3} style={{ marginTop: 8, marginLeft: 10 }}>
                         {statusColor(item.status)}
@@ -96,7 +97,7 @@ export const DoctorInfoItem: React.FunctionComponent<any> = (props: any) => {
                     <Grid item xs style={{ marginTop: 8 }}>
                         <Chip avatar={<Avatar style={{ backgroundColor: '#014F86', color: 'white' }}>ID</Avatar>} label={item.doctorId} style={{ fontSize: 20 }} />
                     </Grid>
-                    <Grid item xs={6} style={{ marginTop: 8 }}>
+                    <Grid item xs={6} style={{ marginTop: 8 }}  onClick={() => setModel(true)}>
                         {item.firstname} {item.lastname}
                     </Grid>
                     <Grid>

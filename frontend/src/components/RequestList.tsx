@@ -110,7 +110,7 @@ export const RequestList:React.FunctionComponent<any> = () => {
 
                 <Grid item xs={6}>Doctor's contact information: {dinfo.email}/{dinfo.phone}</Grid>
                 <Grid item xs={6}></Grid>
-                <Grid item xs={12}>Reponse date: {req.timeresponded}</Grid>
+                <Grid item xs={12}>Reponse date: {new Date(req.timeresponded).toString()}</Grid>
                 <Grid item xs={12}>Doctor's reponse: {req.doctorresponse}</Grid>
                 <Grid item xs={12}>Appointment needed: {req.hasappointment ? "Yes" : "No"}</Grid>
                 <Grid item xs={12}>Prescription: {req.prescription ? req.prescription : "N/A"}</Grid>
@@ -163,7 +163,7 @@ export const RequestList:React.FunctionComponent<any> = () => {
                                     <Typography style={{ width: "100%", padding: '3rem' }}>
                                         <h4 className={classes.accordionHeading}>Request Information:</h4>
                                         <Grid container spacing={1}>
-                                            <Grid item xs={12}>Request created: {text.timeStamp}</Grid>
+                                            <Grid item xs={12}>Request created: {new Date(text.timeStamp).toString()}</Grid>
                                             <Grid item xs={12}>Problem/Symptoms: {text.problem}</Grid>
                                         </Grid>
                                         <br/>
