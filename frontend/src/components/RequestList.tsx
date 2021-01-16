@@ -36,7 +36,7 @@ interface IReqList{
     doctorresponse:string
     hasappointment:boolean
     prescription:string
-    timeResponded:string
+    timeresponded:string
 }
 
 
@@ -110,7 +110,7 @@ export const RequestList:React.FunctionComponent<any> = () => {
 
                 <Grid item xs={6}>Doctor's contact information: {dinfo.email}/{dinfo.phone}</Grid>
                 <Grid item xs={6}></Grid>
-                <Grid item xs={12}>Reponse date: {req.timeStamp}</Grid>
+                <Grid item xs={12}>Reponse date: {req.timeresponded}</Grid>
                 <Grid item xs={12}>Doctor's reponse: {req.doctorresponse}</Grid>
                 <Grid item xs={12}>Appointment needed: {req.hasappointment ? "Yes" : "No"}</Grid>
                 <Grid item xs={12}>Prescription: {req.prescription ? req.prescription : "N/A"}</Grid>
@@ -168,7 +168,7 @@ export const RequestList:React.FunctionComponent<any> = () => {
                                         </Grid>
                                         <br/>
                                         <br/>
-                                        {text.doctorId ? getDoctorInfo(text.doctorId, text) : ""}
+                                        {text.responsed ? getDoctorInfo(text.doctorId, text) : ""}
                                     </Typography>
                                 </AccordionDetails>
                                 </Accordion>
