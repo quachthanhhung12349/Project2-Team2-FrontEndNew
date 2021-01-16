@@ -83,7 +83,10 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     toolbar: {
       backgroundColor: "#014F86"
-    }
+    },
+    iconStyle: {
+      color: "#012A4A",
+    },
   }),
 );
 
@@ -204,7 +207,7 @@ export const PatientNavBar:React.FunctionComponent<any> = (props) => {
       >
         
         <div className={classes.drawerHeader}>
-          {props.patientInfo ? props.patientInfo.firstname : location.state.patientInfo.firstname }
+          {props.patientInfo ? props.patientInfo.firstname : location.state.patientInfo.firstname } {" "}
           {props.patientInfo ? props.patientInfo.lastname : location.state.patientInfo.lastname }
           <IconButton onClick={handleDrawerClose}>
           {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
@@ -215,27 +218,27 @@ export const PatientNavBar:React.FunctionComponent<any> = (props) => {
           <List>
 
                 <ListItem onClick={homeClicked}  button key={navbarData[0].name}>
-                <ListItemIcon><HomeIcon/></ListItemIcon>
+                <ListItemIcon><HomeIcon classes={{root: classes.iconStyle}}/></ListItemIcon>
                 <ListItemText primary={navbarData[0].name} />
                 </ListItem>
           
                 <ListItem onClick={requestListClicked}  button key={navbarData[1].name}>
-                <ListItemIcon><DescriptionIcon/></ListItemIcon>
+                <ListItemIcon><DescriptionIcon classes={{root: classes.iconStyle}}/></ListItemIcon>
                 <ListItemText primary={navbarData[1].name} />
                 </ListItem>
            
                 <ListItem onClick={createRequestClicked}  button key={navbarData[2].name}>
-                <ListItemIcon><NoteAddIcon/></ListItemIcon>
+                <ListItemIcon><NoteAddIcon classes={{root: classes.iconStyle}}/></ListItemIcon>
                 <ListItemText primary={navbarData[2].name} />
                 </ListItem>
               
                 <ListItem onClick={forumClicked}  button key={navbarData[3].name}>
-                <ListItemIcon><SpeakerNotesIcon/></ListItemIcon>
+                <ListItemIcon><SpeakerNotesIcon classes={{root: classes.iconStyle}}/></ListItemIcon>
                 <ListItemText primary={navbarData[3].name} />
                 </ListItem>
 
                 <ListItem onClick={logoutClicked} button key={navbarData[4].name}>
-                <ListItemIcon><ExitToAppIcon/></ListItemIcon>
+                <ListItemIcon><ExitToAppIcon classes={{root: classes.iconStyle}}/></ListItemIcon>
                 <ListItemText primary={navbarData[4].name} />
                 </ListItem>
               
@@ -249,9 +252,7 @@ export const PatientNavBar:React.FunctionComponent<any> = (props) => {
         })}
       >
         <div className={classes.drawerHeader} />
-        <Typography component="span">
           {props.children}
-        </Typography>
       </main>
     </div>
   );

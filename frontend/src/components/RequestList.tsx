@@ -7,7 +7,7 @@ import AccordionDetails from '@material-ui/core/AccordionDetails';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { Button, Grid } from '@material-ui/core';
+import { Button, Grid, Paper } from '@material-ui/core';
 import { getRequestList } from '../remote/remote-functions';
 import { useLocation } from 'react-router-dom';
 import { Preview, print } from 'react-html2pdf';
@@ -48,10 +48,6 @@ export const RequestList:React.FunctionComponent<any> = () => {
 
     const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        root: {
-            marginLeft: '5%',
-            marginRight: '5%',
-        },
         heading: {
             fontSize: theme.typography.pxToRem(15),
             flexBasis: '33.33%',
@@ -65,15 +61,7 @@ export const RequestList:React.FunctionComponent<any> = () => {
             fontSize: theme.typography.pxToRem(15),
             color: "orange",
         },
-        paper: {
-            padding: theme.spacing(2),
-            textAlign: 'center',
-            color: theme.palette.text.secondary,
-            
-        },
-        accordionBackground: {
-            backgroundColor: "#EDF2FB"
-        },
+        
         rootButton: {
             '&:hover': {
                 backgroundColor: "#014F86",
@@ -94,7 +82,14 @@ export const RequestList:React.FunctionComponent<any> = () => {
         },
         accordionHeading: {
             color: "#012A4A"
-        }
+        },
+        paper: {
+            padding: '2rem',
+            position: 'relative',
+            backgroundColor: "#EDF2FB",
+            margin: '2rem',
+            color: '#012A4A'
+        },
     }),
     )
 
@@ -106,7 +101,7 @@ export const RequestList:React.FunctionComponent<any> = () => {
 
         return(
             <>
-            {console.log(req)}
+
             <h4 className={classes.accordionHeading}>Doctor's Response:</h4>
             <Grid container spacing={1}>
                 <Grid  item xs={4}>Doctor's name:{dinfo.firstname} {dinfo.lastname}  </Grid>  
@@ -119,9 +114,7 @@ export const RequestList:React.FunctionComponent<any> = () => {
                 <Grid item xs={12}>Doctor's reponse: {req.doctorresponse}</Grid>
                 <Grid item xs={12}>Appointment needed: {req.hasappointment ? "Yes" : "No"}</Grid>
                 <Grid item xs={12}>Prescription: {req.prescription ? req.prescription : "N/A"}</Grid>
-                <Grid item xs={12}><Button variant="contained" onClick={() => downloadDom()} classes={{
-                                root: classes.rootButton,
-                            }}>Download</Button></Grid>
+                
             </Grid> 
             
             </>
@@ -150,19 +143,14 @@ export const RequestList:React.FunctionComponent<any> = () => {
         return(
             
             <PatientNavBar>
-                <Preview id={'jsx-template'}>
-                    <div className={classes.root} >
-                    
+                <Paper elevation={3} classes={{ root: classes.paper }}>
                     <Grid container spacing={2}>
-                        <Grid item xs={3}>
                         
-                        </Grid>
-                        <Grid item xs={3}>{data[0] ? data[0].patientId.firstname : ""} {data[0] ? data[0].patientId.lastname : ""}</Grid>
-                        <Grid item xs={3}>HCN:{data[0] ? data[0].patientId.healthcardnumber: ""}</Grid>
-                        <Grid item xs={3}></Grid>
+                        <Grid item xs={6}><h2>Patients' Requests</h2></Grid>
+                        
                         {data.map(text => 
                             <Grid item xs={12}>
-                                <Accordion className={classes.accordionBackground} expanded={expanded === `${text.requestId}`} onChange={handleChange(`${text.requestId}`)}>
+                                <Accordion expanded={expanded === `${text.requestId}`} onChange={handleChange(`${text.requestId}`)}>
                                     <AccordionSummary
                                         expandIcon={<ExpandMoreIcon />}
                                         aria-controls="panel1bh-content"
@@ -172,7 +160,7 @@ export const RequestList:React.FunctionComponent<any> = () => {
                                         <Typography> <span>Status: </span><span className={text.responsed ? classes.resolvedHeading : classes.pendingHeading}>{text.responsed ? "  Resolved" : "  Pending"}</span></Typography>
                                     </AccordionSummary>
                                 <AccordionDetails>
-                                    <Typography>
+                                    <Typography style={{ width: "100%", padding: '3rem' }}>
                                         <h4 className={classes.accordionHeading}>Request Information:</h4>
                                         <Grid container spacing={1}>
                                             <Grid item xs={12}>Request created: {text.timeStamp}</Grid>
@@ -188,9 +176,7 @@ export const RequestList:React.FunctionComponent<any> = () => {
                         )}
                                     
                     </Grid>    
-                    </div>
-                </Preview>
-                
+                </Paper>
             </PatientNavBar> 
         )
     

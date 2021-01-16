@@ -85,7 +85,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     iconStyle: {
       color: "#012A4A",
-  },
+    },
   }),
 );
 
@@ -202,7 +202,7 @@ export const DoctorNavBar:React.FunctionComponent<any> = (props) => {
         }}
       >
         <div className={classes.drawerHeader}>
-          {props.doctorInfo ? props.doctorInfo.firstname : location.state.doctorInfo.firstname }
+          {props.doctorInfo ? props.doctorInfo.firstname : location.state.doctorInfo.firstname } {" "}
           {props.doctorInfo ? props.doctorInfo.lastname : location.state.doctorInfo.lastname }
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import PatientNavBar from './PatientNavBar';
 import { getDoctorList, postPatientRequest } from '../remote/remote-functions';
-import { Accordion, AccordionDetails, AccordionSummary, Button, createStyles, Grid, makeStyles, TextField, Theme, Typography } from '@material-ui/core';
+import { Accordion, AccordionDetails, AccordionSummary, Button, createStyles, Grid, makeStyles, Paper, TextField, Theme, Typography } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { useLocation } from 'react-router';
+import { useHistory, useLocation } from 'react-router';
 
 export const Request: React.FunctionComponent<any> = () => {
 
@@ -11,6 +11,7 @@ export const Request: React.FunctionComponent<any> = () => {
     const [problem, setProblem] = useState<any>()
     const [error, setError] = useState<any>("")
     const location: any = useLocation()
+    const history = useHistory();
 
     async function getDocList(){
         let doctors = await getDoctorList()
@@ -29,6 +30,12 @@ export const Request: React.FunctionComponent<any> = () => {
             let res = await postPatientRequest(reqData)
             setProblem("")
             setError("")
+            history.push({
+                pathname: "/requestList",
+                state: {  //to access state use useLocation hook in function component
+                  patientInfo:  location.state.patientInfo 
+                }
+            })
         }
         
     }
@@ -43,23 +50,18 @@ export const Request: React.FunctionComponent<any> = () => {
 
     const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        root: {
-            marginLeft: '5%',
-            marginRight: '5%',
-        },
         heading: {
             fontSize: theme.typography.pxToRem(15),
             flexBasis: '33.33%',
             flexShrink: 0,
         },
         paper: {
-            padding: theme.spacing(2),
-            textAlign: 'center',
-            color: theme.palette.text.secondary,
+            padding: '2rem',
+            position: 'relative',
+            backgroundColor: "#EDF2FB",
+            margin: '2rem',
+            color: '#012A4A'
             
-        },
-        accordionBackground: {
-            backgroundColor: "#EDF2FB"
         },
         rootButton: {
             '&:hover': {
@@ -93,60 +95,62 @@ export const Request: React.FunctionComponent<any> = () => {
 
     return(
         <PatientNavBar>
-            <div className={classes.root} >
-            {console.log(docList)}
-            <Grid container spacing={2}>
-                {docList.map(elem =>
-                    <Grid item xs={12}>
-                        <Accordion className={classes.accordionBackground} expanded={expanded === `${elem.doctorId}`} onChange={handleChange(`${elem.doctorId}`)}>
-                            <AccordionSummary
-                                expandIcon={<ExpandMoreIcon />}
-                                aria-controls="panel1bh-content"
-                                id="panel1bh-header"
-                                >
-                                <Typography className={classes.heading}>Dr. {elem.firstname} {elem.lastname}</Typography>
-                                <Typography> </Typography>
-                            </AccordionSummary>
+            <Paper elevation={3} classes={{ root: classes.paper }}>
+                <div>
+                
+                <Grid container spacing={2}>
+                    {docList.map(elem =>
+                        <Grid item xs={12}>
+                            <Accordion expanded={expanded === `${elem.doctorId}`} onChange={handleChange(`${elem.doctorId}`)}>
+                                <AccordionSummary
+                                    expandIcon={<ExpandMoreIcon />}
+                                    aria-controls="panel1bh-content"
+                                    id="panel1bh-header"
+                                    >
+                                    <Typography className={classes.heading}>Dr. {elem.firstname} {elem.lastname}</Typography>
+                                    <Typography> </Typography>
+                                </AccordionSummary>
 
-                            <AccordionDetails>
-                                <Typography>
-                                    <h4 className={classes.accordionHeading}>Doctor information</h4>
-                                        Email: {elem.email}<br/>
-                                        Address: {elem.address}<br/>
-                                        Gender: {elem.gender}<br/>
-                                        Languages spoken: {elem.language} 
-                                    <h4 className={classes.accordionHeading}>Doctor Background</h4>
-                                        Speciality: {elem.speciality}<br/>
-                                        Education: {elem.education}<br/>
-                                        Certification: {elem.certification}<br/>
-                                        Awards: {elem.awards}
-                                    <h4 className={classes.accordionHeading}>Create Request</h4>
-                                    
-                                    <Grid item xs={12}>
-                                        Problem:
-                                    <TextField
-                                        id="outlined-multiline-static"
-                                        multiline
-                                        rows={4}
-                                        fullWidth
-                                        variant="outlined"
-                                        onChange={handleChangeProblem}
-                                        className={classes.textbox}
-                                        />
-                                        {error}
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                    <Button variant="contained" onClick={() => submitRequest(elem.doctorId, problem)} classes={{
-                                        root: classes.rootButton,
-                                    }}>Create Request</Button>
-                                    </Grid>
-                                </Typography>
-                            </AccordionDetails>
-                        </Accordion>
-                    </Grid>
-                )}
-            </Grid>    
-        </div>
+                                <AccordionDetails>
+                                    <Typography style={{ width: "100%", padding: '3rem' }}>
+                                        <h4 className={classes.accordionHeading}>Doctor information:</h4>
+                                            Email: {elem.email}<br/>
+                                            Address: {elem.address}<br/>
+                                            Gender: {elem.gender}<br/>
+                                            Languages spoken: {elem.language} 
+                                        <h4 className={classes.accordionHeading}>Doctor Background:</h4>
+                                            Speciality: {elem.speciality}<br/>
+                                            Education: {elem.education}<br/>
+                                            Certification: {elem.certification}<br/>
+                                            Awards: {elem.awards}
+                                        <h4 className={classes.accordionHeading}>Create Request:</h4>
+                                        
+                                        <Grid item xs={12}>
+                                            Problem:
+                                        <TextField
+                                            id="outlined-multiline-static"
+                                            multiline
+                                            rows={4}
+                                            fullWidth
+                                            variant="outlined"
+                                            onChange={handleChangeProblem}
+                                            className={classes.textbox}
+                                            />
+                                            {error}
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                        <Button variant="contained" onClick={() => submitRequest(elem.doctorId, problem)} classes={{
+                                            root: classes.rootButton,
+                                        }}>Create Request</Button>
+                                        </Grid>
+                                    </Typography>
+                                </AccordionDetails>
+                            </Accordion>
+                        </Grid>
+                    )}
+                </Grid>    
+            </div>
+        </Paper>
         </PatientNavBar>
        
     )
