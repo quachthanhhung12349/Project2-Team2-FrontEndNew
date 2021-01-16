@@ -14,7 +14,6 @@ export const DoctorsList: React.FunctionComponent<IDoctorListProps> = (props) =>
         props.handleChange();
     }
 
-
     const DoctorItem = doctorsList
     .filter((doctorsList) => doctorsList.status === filter)
     .map((item, i) => <DoctorInfoItem key={i} item={item} handleChange={handleChange}/>)
