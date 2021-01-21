@@ -5,22 +5,22 @@ Revature medical clinic helps in maintaining social distance during COVID-19 and
 ## Technologies Used
 
 ### Front End
-- React JS: version ^17.0.1\
-- Material UI: version ^4.11.2\
-- TypeScript: version ^^4.1.3\
-- node-sass: version ^4.14.1\
-- AJAX - axios: version ^0.21.1\
-- Git\
-- Visual Studio Code\
+- React JS: version ^17.0.1
+- Material UI: version ^4.11.2
+- TypeScript: version ^^4.1.3
+- node-sass: version ^4.14.1
+- AJAX - axios: version ^0.21.1
+- Git
+- Visual Studio Code
 
 ### Back End
-- Java: version 1.8\
-- Spring Boot: version ^2.4.1\
-- Hibernate: version 5.1.3.Final\
-- Swagger: version ^2.9.2\
-- SQL / PostgreSQL: version 42.2.18\
-- Maven: version 1.8\
-- Tomcat: version 9.0\
+- Java: version 1.8
+- Spring Boot: version ^2.4.1
+- Hibernate: version 5.1.3.Final
+- Swagger: version ^2.9.2
+- SQL / PostgreSQL: version 42.2.18
+- Maven: version 1.8
+- Tomcat: version 9.0
 - Eclipse: Spring Tool Suit 4
 
 ### Deployment
