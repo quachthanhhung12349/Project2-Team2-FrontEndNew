@@ -2,6 +2,9 @@
 
 Revature medical clinic helps in maintaining social distance during COVID-19 and allow you to communicate with approved medical doctors for advices and get prescription. It also permit patients to register and create requests with a specific doctor and view history of their requests.Doctors can view requests under their name and respond to a patient by prescribing a medication or letting them know to visit doctor in person. All the users can communicate with each other using forum pages.
 
+### Revature Medical Clinic Backend repository
+- [Backend repository](https://github.com/2011Canada/Project2-Team2-BackEnd)
+
 ## Technologies Used
 
 ### Front End
