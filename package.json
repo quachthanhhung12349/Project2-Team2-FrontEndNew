@@ -4,14 +4,13 @@
     "sass": "^1.83.0"
   },
   "scripts": {
-    "start": "cd frontend && react-scripts start",
-    "build": "cd frontend && react-scripts build",
-    "test": "cd frontend && react-scripts test",
-    "eject": "cd frontend && react-scripts eject"
+    "start": "cd frontend && npm run start",
+    "build": "cd frontend && npm run build",
+    "test": "cd frontend && npm run test",
+    "eject": "cd frontend && npm run eject"
   },
   "devDependencies": {
     "@types/react-router-dom": "^5.3.3",
-    "react-scripts": "^5.0.1",
     "typescript": "^4.9.5"
   }
 }
