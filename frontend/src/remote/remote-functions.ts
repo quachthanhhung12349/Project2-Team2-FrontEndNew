@@ -1,4 +1,5 @@
 import { MedicalSystemBaseClient } from "."
+import axios from "axios";
 
 export const userLogin = async (role:String, username:String , password:String ) => {
     const loginCredentials = {
@@ -20,11 +21,14 @@ export const userLogin = async (role:String, username:String , password:String )
           
     }catch(e){
         console.log(e);
-        if(e.response){
-            throw new Error(e.response.data)
-        } else {
-            throw new Error("OOps Something went wrong?")
+        if (axios.isAxiosError(e)) {
+            if(e.response){
+                throw new Error(e.response.data)
+            } else {
+                throw new Error("OOps Something went wrong?")
+            }
         }
+
         
     }
 
@@ -37,12 +41,13 @@ export const doctorRegister = async (doctorCredentials:any) => {
         return res.data;
     }catch(e){
         console.log(e);
-        if(e.response){
-            throw new Error(e.response.data)
-        } else {
-            throw new Error("OOps Something went wrong?")
+        if (axios.isAxiosError(e)) {
+            if (e.response) {
+                throw new Error(e.response.data)
+            } else {
+                throw new Error("OOps Something went wrong?")
+            }
         }
-        
     }
 }
 
@@ -53,10 +58,12 @@ export const patientRegister = async (patientCredentials:any) => {
         return res.data;
     }catch(e){
         console.log(e);
-        if(e.response){
-            throw new Error(e.response.data)
-        } else {
-            throw new Error("OOps Something went wrong?")
+        if (axios.isAxiosError(e)) {
+            if(e.response){
+                throw new Error(e.response.data)
+            } else {
+                throw new Error("OOps Something went wrong?")
+            }
         }
         
     }
@@ -68,10 +75,12 @@ export const getDoctorsList = async () => {
         return res.data;
     }catch(e){
         console.log(e);
-        if(e.response){
-            throw new Error(e.response.data)
-        } else {
-            throw new Error("OOps Something went wrong?")
+        if (axios.isAxiosError(e)) {
+            if(e.response){
+                throw new Error(e.response.data)
+            } else {
+                throw new Error("OOps Something went wrong?")
+            }
         }
         
     }
@@ -83,10 +92,12 @@ export const updateStatus = async (doctorId, status, email) => {
         return res.data;
     }catch(e){
         console.log(e);
-        if(e.response){
-            throw new Error(e.response.data)
-        } else {
-            throw new Error("OOps Something went wrong?")
+        if (axios.isAxiosError(e)) {
+            if(e.response){
+                throw new Error(e.response.data)
+            } else {
+                throw new Error("OOps Something went wrong?")
+            }
         }
     }
 }
@@ -97,11 +108,14 @@ export const postTopic = async(topic:any)=>{
         return res.data;
     }catch(e){
         console.log(e);
-        if(e.response){
-            throw new Error(e.response.data)
-        } else {
-            throw new Error("OOps Something went wrong?")
+        if (axios.isAxiosError(e)) {
+            if(e.response){
+                throw new Error(e.response.data)
+            } else {
+                throw new Error("OOps Something went wrong?")
+            }
         }
+
         
     }
 }
@@ -112,10 +126,12 @@ export const getTopic = async()=>{
         return res.data;
     }catch(e){
         console.log(e);
-        if(e.response){
-            throw new Error(e.response.data)
-        } else {
-            throw new Error("OOps Something went wrong?")
+        if (axios.isAxiosError(e)) {
+            if(e.response){
+                throw new Error(e.response.data)
+            } else {
+                throw new Error("OOps Something went wrong?")
+            }
         }
         
     }
@@ -127,10 +143,12 @@ export const postMessage = async(message:any)=>{
         return res.data;
     }catch(e){
         console.log(e);
-        if(e.response){
-            throw new Error(e.response.data)
-        } else {
-            throw new Error("OOps Something went wrong?")
+        if (axios.isAxiosError(e)) {
+            if(e.response){
+                throw new Error(e.response.data)
+            } else {
+                throw new Error("OOps Something went wrong?")
+            }
         }
         
     }
@@ -142,6 +160,7 @@ export const getMessage = async(forumId:number)=>{
         return res.data;
     }catch(e){
         console.log(e);
+        if (axios.isAxiosError(e))
         if(e.response){
             throw new Error(e.response.data)
         } else {
@@ -159,6 +178,7 @@ export const postDoctorResponse = async(response:any)=>{
         return res.data;
     }catch(e){
         console.log(e);
+        if (axios.isAxiosError(e))
         if(e.response){
             throw new Error(e.response.data)
         } else {
@@ -174,10 +194,12 @@ export const postPatientRequest = async(pReq:any)=>{
         return res.data;
     }catch(e){
         console.log(e);
-        if(e.response){
-            throw new Error(e.response.data)
-        } else {
-            throw new Error("OOps Something went wrong?")
+        if (axios.isAxiosError(e)) {
+            if(e.response){
+                throw new Error(e.response.data)
+            } else {
+                throw new Error("OOps Something went wrong?")
+            }
         }
         
     }
@@ -190,10 +212,12 @@ export const getRequestList = async(patientId:any)=>{
         return res.data;
     }catch(e){
         console.log(e);
-        if(e.response){
-            throw new Error(e.response.data)
-        } else {
-            throw new Error("OOps Something went wrong?")
+        if (axios.isAxiosError(e)) {
+            if(e.response){
+                throw new Error(e.response.data)
+            } else {
+                throw new Error("OOps Something went wrong?")
+            }
         }
         
     }
@@ -206,10 +230,12 @@ export const getDoctorList = async()=>{
         return res.data;
     }catch(e){
         console.log(e);
-        if(e.response){
-            throw new Error(e.response.data)
-        } else {
-            throw new Error("OOps Something went wrong?")
+        if (axios.isAxiosError(e)) {
+            if(e.response){
+                throw new Error(e.response.data)
+            } else {
+                throw new Error("OOps Something went wrong?")
+            }
         }
         
     }
@@ -224,10 +250,12 @@ export const getPendingRequestList = async(doctorId:any)=>{
         return res.data;
     }catch(e){
         console.log(e);
-        if(e.response){
-            throw new Error(e.response.data)
-        } else {
-            throw new Error("OOps Something went wrong?")
+        if (axios.isAxiosError(e)) {
+            if(e.response){
+                throw new Error(e.response.data)
+            } else {
+                throw new Error("OOps Something went wrong?")
+            }
         }
         
     }
@@ -239,11 +267,14 @@ export const getPastRequestList = async(doctorId:any)=>{
         return res.data;
     }catch(e){
         console.log(e);
-        if(e.response){
-            throw new Error(e.response.data)
-        } else {
-            throw new Error("OOps Something went wrong?")
+        if (axios.isAxiosError(e)) {
+            if(e.response){
+                throw new Error(e.response.data)
+            } else {
+                throw new Error("OOps Something went wrong?")
+            }
         }
+
         
     }
 }
@@ -255,11 +286,14 @@ export const getDocRequestList = async(doctorId:any)=>{
         return res.data;
     }catch(e){
         console.log(e);
-        if(e.response){
-            throw new Error(e.response.data)
-        } else {
-            throw new Error("OOps Something went wrong?")
+        if (axios.isAxiosError(e)) {
+            if(e.response){
+                throw new Error(e.response.data)
+            } else {
+                throw new Error("OOps Something went wrong?")
+            }
         }
+
         
     }
 }
