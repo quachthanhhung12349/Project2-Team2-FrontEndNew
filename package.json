@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "react-router-dom": "^5.3.4",
     "react-scripts": "^5.0.1",
     "sass": "^1.83.0"
   },
@@ -8,5 +9,8 @@
     "build": "cd frontend && react-scripts build",
     "test": "cd frontend && react-scripts test",
     "eject": "cd frontend && react-scripts eject"
+  },
+  "devDependencies": {
+    "@types/react-router-dom": "^5.3.3"
   }
 }
