@@ -62,14 +62,13 @@
     "@typescript-eslint/parser": "^8.18.1",
     "eslint": "^9.17.0",
     "react-refresh-webpack-plugin": "^0.1.0",
+    "react-scripts": "^5.0.1",
     "typescript": "^5.7.2",
     "webpack": "^5.97.1",
     "webpack-cli": "^5.1.4"
   },
-
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
   "main": "index.js",
   "author": "",
   "license": "ISC"
-
 }
