@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
+import React from 'react';
 import './assets/primary.scss';
-import { BrowserRouter as Router, Link, Route, Switch, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import { Register } from './components/Register';
 import { Login } from './components/Login';
 import { Admin } from './components/Admin';

@@ -4,7 +4,6 @@ import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import ThumbDownIcon from '@material-ui/icons/ThumbDown';
 import { updateStatus } from '../../remote/remote-functions';
-import { createTrue } from 'typescript';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
